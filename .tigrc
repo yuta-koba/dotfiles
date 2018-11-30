@@ -1,0 +1,41 @@
+set split-view-height = 80%
+
+# color
+#color area                 fgcolor bgcolor [attributes]
+color default               255     236
+# main view
+color id                    153	    236	    bold
+color date                  215	    236	    bold
+color author                81      236	    bold
+color graph-commit          default default
+color title-focus           234     153
+color title-blur            234     153
+color cursor                185     242     bold
+# Help Page
+color header                185     default
+color section               153     default bold
+color help-group            81      default bold
+color help-action           215     default
+# Diff view
+color "commit "             81      default
+color "Merge: "             81      default
+color "Author: "            81      default
+color "AuthorDate: "        81      default
+color "Commit: "            81      default
+color "CommitDate: "        81      default
+color diff-stat             153     default
+color diff-index            215     default
+color diff-add-highlight    green   default standout
+color diff-del-highlight    red     default standout
+color "---"                 81      default bold
+color "--- "                185     default
+color "+++ "                185     default
+color "diff --"             81      default bold
+color "@@"                  214     default
+color "+"                   40      default
+color "+ "                  40      default
+color "-"                   160     default
+color "- "                  160     default
+color "old file mode "      185     default
+color "new file mode "      185     default
+color "deleted file mode "  185     default
