@@ -8,3 +8,7 @@ for d in ${script_dir[@]};do
     source $d/$f
   done
 done
+
+export XDG_CONFIG_HOME=~/.config
+export XDG_CACHE_HOME=~/.cache
+export EDITOR=nvim

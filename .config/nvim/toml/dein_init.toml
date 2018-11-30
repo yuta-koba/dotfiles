@@ -1,0 +1,236 @@
+# === interface [start] ===
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+
+[[plugins]]
+repo = 'Shougo/denite.nvim'
+on_cmd = 'Denite'
+hook_add = '''
+  let g:deoplete#enable_at_startup = 1        "起動時に開始
+  let g:deoplete#auto_complete_delay = 0      "入力からポップアップ表示までのdealy[ms]
+  let g:deoplete#enable_smart_case = 0        "大文字小文字を区別
+
+  call denite#custom#option('default', 'prompt', '>')
+  " deniteの起動位置をtopに変更
+  call denite#custom#option('default', 'direction', 'top')
+  " denite/insert モードのときは，C- で移動できるようにする
+  call denite#custom#map('insert', "<C-j>", '<denite:move_to_next_line>')
+  call denite#custom#map('insert', "<C-k>", '<denite:move_to_previous_line>')
+  " tabopen や vsplit のキーバインドを割り当て
+  call denite#custom#map('insert', "<C-t>", '<denite:do_action:tabopen>')
+  call denite#custom#map('insert', "<C-v>", '<denite:do_action:vsplit>')
+  call denite#custom#map('normal', "v", '<denite:do_action:vsplit>')
+
+  " Deniteの設定
+  nnoremap [denite] <Nop>
+  nmap <leader>d [denite]
+  " -buffer-name=
+  nnoremap <silent> [denite]g  :Denite grep -buffer-name=search-buffer-denite<CR>
+  " Denite grep検索結果を再表示する
+  nnoremap <silent> [denite]r :Denite -resume -buffer-name=search-buffer-denite<CR>
+  " resumeした検索結果の次の行の結果へ飛ぶ
+  nnoremap <silent> [denite]n :Denite -resume -buffer-name=search-buffer-denite -select=+1 -immediately<CR>
+  " resumeした検索結果の前の行の結果へ飛ぶ
+  nnoremap <silent> [denite]p :Denite -resume -buffer-name=search-buffer-denite -select=-1 -immediately<CR>
+
+  " 検索対象外のファイル指定
+"  call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
+"    \ [
+"    \  '.git/', '/.terraform/',
+"    \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/', '.DS_Store'
+"    \ ])
+'''
+# === interface [end] ===
+
+
+# === snippet [start] ===
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+hook_add = '''
+  inoremap <expr><tab> pumvisible() ? "\<C-n>" :
+    \ neosnippet#expandable_or_jumpable() ?
+    \    "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
+'''
+hook_post_source = '''
+  let g:deoplete#enable_at_startup = 1
+  let g:deoplete#auto_complete_delay = 0
+  let g:deoplete#auto_complete_start_length = 1
+  let g:deoplete#enable_camel_case = 0
+  let g:deoplete#enable_ignore_case = 0
+  let g:deoplete#enable_refresh_always = 0
+  let g:deoplete#enable_smart_case = 1
+  let g:deoplete#file#enable_buffer_path = 1
+  let g:deoplete#max_list = 10000
+  let g:deoplete#omni_patterns = {}
+  let g:deoplete#omni_patterns.terraform = '[^ *\t"{=$]\w*'
+  call deoplete#initialize()
+'''
+hook_source = '''
+  let g:deoplete#sources#go#gocode_binary = $GOPATH . '/bin/gocode'
+'''
+
+
+[[plugins]]
+repo = 'Shougo/neosnippet.vim'
+depends = ['neosnippet-snippets']
+on_ft = ['snippet']
+hook_add = '''
+  imap <C-k> <Plug>(neosnippet_expand_or_jump)
+  smap <C-k> <Plug>(neosnippet_expand_or_jump)
+  xmap <C-k> <Plug>(neosnippet_expand_target)
+  if has('conceal')
+    set conceallevel=2 concealcursor=niv
+  endif
+'''
+
+[[plugins]]
+repo = 'Shougo/neosnippet-snippets'
+# === snippet [end] ===
+
+
+# ===  colorscheme [start] ===
+[[plugins]]
+repo = 'jacoborus/tender.vim'
+# === colorscheme [end] ===
+
+
+# === status-line [start] ===
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+hook_add = '''
+  set t_Co=256
+  set laststatus=2
+  let g:lightline = {
+    \'colorscheme': 'tender',
+    \'active': {
+    \  'left': [
+    \    ['mode', 'paste'],
+    \    ['gitbranch', 'readonly', 'filename', 'modified']
+    \  ],
+    \  'right': [
+    \    ['syntastic', 'lineinfo'],
+    \    ['percent'],
+    \    ['fileformat', 'fileencoding', 'filetype']
+    \  ]
+    \},
+    \'component_function': {
+    \  'gitbranch': 'fugitive#head'
+    \},
+  \}
+'''
+# === status-line [end] ===
+
+
+# === git [start] ===
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
+[[plugins]]
+repo = 'airblade/vim-gitgutter'
+# === git [end] ===
+
+
+# === indent [start] ===
+[[plugins]]
+repo = 'nathanaelkane/vim-indent-guides'
+hook_add = '''
+  let g:indent_guides_enable_on_vim_startup = 1
+  
+  " add filetype
+  augroup FileTypes
+    autocmd!
+    autocmd BufNewFile,BufRead *.py setfiletype python
+    autocmd BufNewFile,BufRead *.rb setfiletype ruby
+    autocmd BufNewFile,BufRead *.toml setfiletype toml
+  augroup END
+  
+  " set filetype Indent
+  augroup FileTypeIndent
+    autocmd!
+    autocmd BufNewFile,BufRead *.yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  augroup END
+'''
+# === indent [end] ===
+
+
+# === filetype [start] ===
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
+
+[[plugins]]
+repo = 'osyo-manga/vim-precious'
+depends = ['context_filetype.vim']
+# === filetype [end] ===
+
+
+# === quoting/parenthesizing [start] ===
+[[plugins]]
+repo = 'tpope/vim-surround'
+# === quoting/parenthesizing [end] ===
+
+
+# === syntax [start] ===
+[[plugins]]
+repo = 'scrooloose/syntastic'
+# === syntax [end] ===
+
+# === tagbar [start] ===
+[[plugins]]
+repo = 'majutsushi/tagbar'
+hook_add = '''
+  nmap ,t :TagbarToggle<CR>
+  let g:tagbar_autoshowtag = 1
+'''
+# === tagbar [end] ===
+
+# === fzf [start] ===
+[[plugins]]
+repo = 'junegunn/fzf.vim'
+hook_add = '''
+  let g:fzf_command_prefix = 'Fzf'
+
+  let g:fzf_action = {
+    \ 'ctrl-s': 'split',
+    \ 'ctrl-v': 'vsplit'}
+  " Default fzf layout
+  " - down / up / left / right
+  let g:fzf_layout = {'down': '~40%'}
+
+  let g:fzf_colors = {
+    \ 'fg':      ['fg', 'Normal'],
+    \ 'bg':      ['bg', 'Normal'],
+    \ 'hl':      ['fg', 'Comment'],
+    \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+    \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+    \ 'hl+':     ['fg', 'Statement'],
+    \ 'info':    ['fg', 'PreProc'],
+    \ 'border':  ['fg', 'Ignore'],
+    \ 'prompt':  ['fg', 'Conditional'],
+    \ 'pointer': ['fg', 'Exception'],
+    \ 'marker':  ['fg', 'Keyword'],
+    \ 'spinner': ['fg', 'Label'],
+    \ 'header':  ['fg', 'Comment'] }
+
+  " Enable per-command history.
+  " CTRL-N and CTRL-P will be automatically bound to next-history and
+  " previous-history instead of down and up. If you don't like the change,
+  " explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
+  let g:fzf_history_dir = '~/.local/share/fzf-history'
+'''
+
+[[plugins]]
+repo = 'junegunn/fzf'
+build = './install --bin'
+merged = '0'
+# === fzf [end] ===
+
+[[plugins]]
+repo = 'mattn/gist-vim'
+depends = ['webapi-vim']
+hook_add = '''
+  let g:gist_post_private = 1
+'''
+
+[[plugins]]
+repo = 'mattn/webapi-vim'

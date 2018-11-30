@@ -1,3 +1,5 @@
+alias vi='nvim'
+
 alias ll='ls -laG'
 
 alias gs='git status'
