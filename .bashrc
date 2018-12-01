@@ -1,11 +1,5 @@
-# terraform-completion
-if [ $(which terraform) ];then
-  complete -C $(which terraform) terraform
-fi
-
-# packer-completion
-if [ $(which packer) ];then
-  complete -C $(which packer) packer
-fi
+# completion
+[ $(which terraform) ] && complete -C $(which terraform) terraform
+[ $(which packer) ] && complete -C $(which packer) packer
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
