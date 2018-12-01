@@ -86,6 +86,7 @@ colorscheme tender
 " key map
 noremap <C-n> :tabnew<CR>
 noremap <S-Tab> :tabnext<CR>
+noremap <leader>tt :terminal<CR>
 
 " === tab ===
 set autoindent    " 自動インデント
@@ -101,14 +102,20 @@ set showmatch
 set hlsearch
 noremap <silent><Esc><ESC> :<C-u>set nohlsearch!<CR>
 
+" === json ===
+" ダブルクォーテーションを表示
+set conceallevel=0
+let g:vim_json_syntax_conceal = 0
 
-" === vim-terraform-completeion ===
-" URL:https://github.com/juliosueiras/vim-terraform-completion
+
+" === terraform-completion-vim ===
 let g:deoplete#omni_patterns = {}
 
 call deoplete#custom#option('omni_patterns', {
-\ 'complete_method': 'omnifunc',
-\ 'terraform': '[^ *\t"{=$]\w*',
-\})
-
+  \ 'complete_method': 'omnifunc',
+  \ 'terraform': '[^ *\t"{=$]\w*',
+  \})
 call deoplete#initialize()
+
+
+ au FileType vim setlocal foldmethod=syntax
