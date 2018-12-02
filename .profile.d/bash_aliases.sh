@@ -10,3 +10,5 @@ alias gck='git checkout'
 alias gd='git diff'
 alias diff='[ $(colordiff) ] && colordiff -u'
 alias tpl='terraform plan | landscape'
+
+alias fz='fzf --ansi'

@@ -4,4 +4,4 @@
 
 [ ! $(which dircolors > /dev/null; echo $?) ] && eval $(dircolors ~/.dir_colors)
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash

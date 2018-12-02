@@ -15,5 +15,3 @@ for d in ${script_dir[@]};do
     source $d/$f
   done
 done
-
-

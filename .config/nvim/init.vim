@@ -12,59 +12,45 @@ let s:dein_repo = s:dein_cache . '/repos/github.com/Shougo/dein.vim'
 " Required:
 set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
-let g:python_host_prog = '/usr/bin/python'
-let g:python3_host_prog = "/Users/lunarxlark/Documents/anyenv/envs/pyenv/shims/python3"
-let g:ruby_host_prog = "/Users/lunarxlark/Documents/anyenv/envs/rbenv/shims/ruby"
+"let g:python_host_prog = '/usr/bin/python'
+"let g:python3_host_prog = "/Users/lunarxlark/Documents/anyenv/envs/pyenv/shims/python3"
+"let g:ruby_host_prog = "/Users/lunarxlark/Documents/anyenv/envs/rbenv/shims/ruby"
 
 
 " Required:
 if dein#load_state( s:dein_cache )
   call dein#begin( s:dein_cache )
-
-  " Let dein manage dein
-  " Required:
   call dein#add( s:dein_repo )
 
-  " Add or remove your plugins here:
-  " You can specify revision/branch/tag.
-  " call dein#add('Shougo/deol.nvim', { 'rev': 'a1b5108fd' })
   let g:rc_dir = expand( s:dein_config )
 
   let s:toml_init   = g:rc_dir . '/dein_init.toml'
   let s:toml_lazy   = g:rc_dir . '/dein_lazy.toml'
-  let s:toml_toml   = g:rc_dir . '/dein_toml.toml'
-  let s:toml_yaml   = g:rc_dir . '/dein_yaml.toml'
-  let s:toml_python = g:rc_dir . '/dein_python.toml'
-  let s:toml_aws    = g:rc_dir . '/dein_aws.toml'
-  let s:toml_hashi  = g:rc_dir . '/dein_hashi.toml'
-  let s:toml_docker = g:rc_dir . '/dein_docker.toml'
-  let s:toml_go     = g:rc_dir . '/dein_go.toml'
+  "let s:toml_toml   = g:rc_dir . '/dein_toml.toml'
+  "let s:toml_yaml   = g:rc_dir . '/dein_yaml.toml'
+  "let s:toml_python = g:rc_dir . '/dein_python.toml'
+  "let s:toml_aws    = g:rc_dir . '/dein_aws.toml'
+  "let s:toml_hashi  = g:rc_dir . '/dein_hashi.toml'
+  "let s:toml_docker = g:rc_dir . '/dein_docker.toml'
+  "let s:toml_go     = g:rc_dir . '/dein_go.toml'
 
   cal dein#load_toml(s:toml_init,   {'lazy': 0})
   cal dein#load_toml(s:toml_lazy,   {'lazy': 1})
-  cal dein#load_toml(s:toml_toml,   {'lazy': 1})
-  cal dein#load_toml(s:toml_yaml,   {'lazy': 1})
-  cal dein#load_toml(s:toml_python, {'lazy': 1})
-  cal dein#load_toml(s:toml_aws,    {'lazy': 1})
-  cal dein#load_toml(s:toml_hashi,  {'lazy': 1})
-  cal dein#load_toml(s:toml_docker, {'lazy': 1})
-  cal dein#load_toml(s:toml_go,     {'lazy': 1})
+  "cal dein#load_toml(s:toml_toml,   {'lazy': 1})
+  "cal dein#load_toml(s:toml_yaml,   {'lazy': 1})
+  "cal dein#load_toml(s:toml_python, {'lazy': 1})
+  "cal dein#load_toml(s:toml_aws,    {'lazy': 1})
+  "cal dein#load_toml(s:toml_hashi,  {'lazy': 1})
+  "cal dein#load_toml(s:toml_docker, {'lazy': 1})
+  "cal dein#load_toml(s:toml_go,     {'lazy': 1})
 
 
-  " Required:
   call dein#end()
   call dein#save_state()
 endif
 
-" Required:
 filetype plugin indent on
 syntax enable
-
-" If you want to install not installed plugins on startup.
-"if dein#check_install()
-"  call dein#install()
-"endif
-
 "End dein Scripts-------------------------
 
 " === basic ===
@@ -108,14 +94,11 @@ set conceallevel=0
 let g:vim_json_syntax_conceal = 0
 
 
-" === terraform-completion-vim ===
-let g:deoplete#omni_patterns = {}
-
-call deoplete#custom#option('omni_patterns', {
-  \ 'complete_method': 'omnifunc',
-  \ 'terraform': '[^ *\t"{=$]\w*',
-  \})
-call deoplete#initialize()
-
-
- au FileType vim setlocal foldmethod=syntax
+"" === terraform-completion-vim ===
+"let g:deoplete#omni_patterns = {}
+"
+"call deoplete#custom#option('omni_patterns', {
+"  \ 'complete_method': 'omnifunc',
+"  \ 'terraform': '[^ *\t"{=$]\w*',
+"  \})
+"call deoplete#initialize()
