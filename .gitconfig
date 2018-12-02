@@ -4,8 +4,8 @@
     preloadindex = true
 
 [user]
-	name = lunarxlark
-	email = lunarxlark@gmail.com
+    name = lunarxlark
+    email = lunarxlark@gmail.com
 
 [color "diff"]
     meta = 242 238
@@ -15,5 +15,16 @@
     context = 240
     commit = 246 024
 
+[pager]
+    log  = diff-highlight | less -RX
+    show = diff-highlight | less -RX
+    diff = diff-highlight | less -RX
+
 [ghq]
     root = ~/src
+
+[github]
+    user = lunarxlark
+
+[alias]
+    st = status

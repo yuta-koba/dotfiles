@@ -10,6 +10,8 @@ for d in ${script_dir[@]};do
 done
 
 export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
+export PATH=/usr/local/share/git-core/contrib/diff-highlight:$PATH
+
 export XDG_CONFIG_HOME=~/.config
 export XDG_CACHE_HOME=~/.cache
 export EDITOR=nvim
