@@ -9,6 +9,7 @@ for d in ${script_dir[@]};do
   done
 done
 
+export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
 export XDG_CONFIG_HOME=~/.config
 export XDG_CACHE_HOME=~/.cache
 export EDITOR=nvim
