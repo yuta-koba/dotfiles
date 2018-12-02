@@ -1,0 +1,16 @@
+[core]
+    pager = less -q -R
+    excludesfile = ~/.gitignore
+    preloadindex = true
+
+[user]
+	name = lunarxlark
+	email = lunarxlark@gmail.com
+
+[color "diff"]
+    meta = 242 238
+    frag = 239 236
+    old = 167 normal
+    new = 030 normal
+    context = 240
+    commit = 246 024
