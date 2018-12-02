@@ -1,6 +1,6 @@
 alias vi='nvim'
 
-alias ll='ls -laG'
+alias ll='ls -la --color'
 
 alias gs='git status'
 alias ga='git add'
