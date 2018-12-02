@@ -13,7 +13,7 @@ let s:dein_repo = s:dein_cache . '/repos/github.com/Shougo/dein.vim'
 
 " Required:
 set runtimepath+=$XDG_CACHE_HOME/dein/repos/github.com/Shougo/dein.vim
-set runtimepath+=$XDG_CONFIG_HOME/fzf
+"set runtimepath+=$XDG_CONFIG_HOME/fzf
 
 "let g:python_host_prog = '/usr/bin/python'
 "let g:python3_host_prog = "/Users/lunarxlark/Documents/anyenv/envs/pyenv/shims/python3"
