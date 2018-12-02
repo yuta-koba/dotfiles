@@ -5,14 +5,15 @@ if &compatible
   set nocompatible               " Be iMproved
 endif
 
-let s:dein_cache = '~/.cache/dein'
-let s:dein_config = '~/.config/nvim/toml'
+"let s:dein_config = '~/.config/nvim/toml'
+let s:dein_config = $XDG_CONFIG_HOME . '/nvim/toml'
+"let s:dein_cache = '~/.cache/dein'
+let s:dein_cache = $XDG_CACHE_HOME . '/dein'
 let s:dein_repo = s:dein_cache . '/repos/github.com/Shougo/dein.vim'
 
 " Required:
-"set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
-set runtimepath+=${XDG_CACHE_HOME}/dein/repos/github.com/Shougo/dein.vim
-set runtimepath+=${XDG_CONFIG_HOME}/fzf
+set runtimepath+=$XDG_CACHE_HOME/dein/repos/github.com/Shougo/dein.vim
+set runtimepath+=$XDG_CONFIG_HOME/fzf
 
 "let g:python_host_prog = '/usr/bin/python'
 "let g:python3_host_prog = "/Users/lunarxlark/Documents/anyenv/envs/pyenv/shims/python3"
