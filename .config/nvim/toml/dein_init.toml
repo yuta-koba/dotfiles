@@ -68,7 +68,7 @@ depends = ['context_filetype.vim']
 
 [[plugins]]
 repo = 'junegunn/fzf'
-build = './install --all'
+build = './install --xdg --all'
 merged = 0
 
 
