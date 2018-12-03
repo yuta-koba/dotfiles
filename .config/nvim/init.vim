@@ -66,6 +66,7 @@ colorscheme tender
 
 
 " key map
+inoremap <silent> jj <ESC>
 noremap <C-n> :tabnew<CR>
 noremap <S-Tab> :tabnext<CR>
 noremap <leader>tt :terminal<CR>
