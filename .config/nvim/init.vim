@@ -5,15 +5,12 @@ if &compatible
   set nocompatible               " Be iMproved
 endif
 
-"let s:dein_config = '~/.config/nvim/toml'
 let s:dein_config = $XDG_CONFIG_HOME . '/nvim/toml'
-"let s:dein_cache = '~/.cache/dein'
 let s:dein_cache = $XDG_CACHE_HOME . '/dein'
 let s:dein_repo = s:dein_cache . '/repos/github.com/Shougo/dein.vim'
 
 " Required:
-set runtimepath+=$XDG_CACHE_HOME/dein/repos/github.com/Shougo/dein.vim
-"set runtimepath+=$XDG_CONFIG_HOME/fzf
+set rtp+=$XDG_CACHE_HOME/dein/repos/github.com/Shougo/dein.vim
 
 "let g:python_host_prog = '/usr/bin/python'
 "let g:python3_host_prog = "/Users/lunarxlark/Documents/anyenv/envs/pyenv/shims/python3"
@@ -29,8 +26,6 @@ if dein#load_state( s:dein_cache )
 
   let s:toml_init   = g:rc_dir . '/dein_init.toml'
   let s:toml_lazy   = g:rc_dir . '/dein_lazy.toml'
-  "let s:toml_toml   = g:rc_dir . '/dein_toml.toml'
-  "let s:toml_yaml   = g:rc_dir . '/dein_yaml.toml'
   "let s:toml_python = g:rc_dir . '/dein_python.toml'
   "let s:toml_aws    = g:rc_dir . '/dein_aws.toml'
   "let s:toml_hashi  = g:rc_dir . '/dein_hashi.toml'
@@ -39,8 +34,6 @@ if dein#load_state( s:dein_cache )
 
   cal dein#load_toml(s:toml_init,   {'lazy': 0})
   cal dein#load_toml(s:toml_lazy,   {'lazy': 1})
-  "cal dein#load_toml(s:toml_toml,   {'lazy': 1})
-  "cal dein#load_toml(s:toml_yaml,   {'lazy': 1})
   "cal dein#load_toml(s:toml_python, {'lazy': 1})
   "cal dein#load_toml(s:toml_aws,    {'lazy': 1})
   "cal dein#load_toml(s:toml_hashi,  {'lazy': 1})
@@ -99,7 +92,6 @@ let g:vim_json_syntax_conceal = 0
 
 "" === terraform-completion-vim ===
 "let g:deoplete#omni_patterns = {}
-"
 "call deoplete#custom#option('omni_patterns', {
 "  \ 'complete_method': 'omnifunc',
 "  \ 'terraform': '[^ *\t"{=$]\w*',
