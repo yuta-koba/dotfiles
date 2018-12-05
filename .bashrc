@@ -7,27 +7,11 @@ done
 
 
 # completion
-[ ! $(which terraform > /dev/null; echo $?) ] && complete -C $(which terraform) terraform
-[ ! $(which packer > /dev/null; echo $?) ] && complete -C $(which packer) packer
+type terraform > /dev/null && complete -C $(which terraform) terraform
+type packer > /dev/null && complete -C $(which packer) packer
 
-[ ! $(which dircolors > /dev/null; echo $?) ] && eval $(dircolors ~/.dir_colors)
+
+type dircolors > /dev/null&& eval $(dircolors ~/.dir_colors)
 
 # completion and shortcut for 'fzf'
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
-
-export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
-export PATH=/usr/local/share/git-core/contrib/diff-highlight:$PATH
-
-export XDG_CONFIG_HOME=~/.config
-export XDG_CACHE_HOME=~/.cache
-export EDITOR=nvim
-
-export LANG=en_US.UTF-8
-
-export GOPATH=$HOME/src
-export PATH=$GOPATH/bin:$PATH
-
-# anyenv
-export ANYENV_ROOT="$GOPATH/github.com/riywo/anyenv"
-export PATH="$ANYENV_ROOT/bin:$PATH"
-eval "$(anyenv init -)"

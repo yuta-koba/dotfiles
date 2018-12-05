@@ -21,7 +21,7 @@
     diff = diff-highlight | less -RX
 
 [ghq]
-    root = ~/src
+    root = ~/dev/src
 
 [github]
     user = lunarxlark
