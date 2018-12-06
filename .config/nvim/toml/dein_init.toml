@@ -14,16 +14,14 @@ hook_add = '''
     \'active': {
     \  'left': [
     \    ['mode', 'paste'],
-    \    ['gitbranch', 'readonly', 'filename', 'modified']
+    \    ['gitbranch', 'readonly', 'filename', 'modified'],
     \  ],
     \  'right': [
-    \    ['syntastic', 'lineinfo'],
-    \    ['percent'],
     \    ['fileformat', 'fileencoding', 'filetype']
     \  ]
     \},
     \'component_function': {
-    \  'gitbranch': 'fugitive#head'
+    \  'gitbranch': 'fugitive#head',
     \},
   \}
 '''
@@ -77,102 +75,25 @@ repo = 'junegunn/fzf.vim'
 depends = 'fzf'
 
 
-#[[plugins]]
-#repo = 'Shougo/denite.nvim'
-#on_cmd = 'Denite'
-#hook_add = '''
-#  let g:deoplete#enable_at_startup = 1        "起動時に開始
-#  let g:deoplete#auto_complete_delay = 0      "入力からポップアップ表示までのdealy[ms]
-#  let g:deoplete#enable_smart_case = 0        "大文字小文字を区別
-#
-#  call denite#custom#option('default', 'prompt', '>')
-#  " deniteの起動位置をtopに変更
-#  call denite#custom#option('default', 'direction', 'top')
-#  " denite/insert モードのときは，C- で移動できるようにする
-#  call denite#custom#map('insert', "<C-j>", '<denite:move_to_next_line>')
-#  call denite#custom#map('insert', "<C-k>", '<denite:move_to_previous_line>')
-#  " tabopen や vsplit のキーバインドを割り当て
-#  call denite#custom#map('insert', "<C-t>", '<denite:do_action:tabopen>')
-#  call denite#custom#map('insert', "<C-v>", '<denite:do_action:vsplit>')
-#  call denite#custom#map('normal', "v", '<denite:do_action:vsplit>')
-#
-#  " Deniteの設定
-#  nnoremap [denite] <Nop>
-#  nmap <leader>d [denite]
-#  " -buffer-name=
-#  nnoremap <silent> [denite]g  :Denite grep -buffer-name=search-buffer-denite<CR>
-#  " Denite grep検索結果を再表示する
-#  nnoremap <silent> [denite]r :Denite -resume -buffer-name=search-buffer-denite<CR>
-#  " resumeした検索結果の次の行の結果へ飛ぶ
-#  nnoremap <silent> [denite]n :Denite -resume -buffer-name=search-buffer-denite -select=+1 -immediately<CR>
-#  " resumeした検索結果の前の行の結果へ飛ぶ
-#  nnoremap <silent> [denite]p :Denite -resume -buffer-name=search-buffer-denite -select=-1 -immediately<CR>
-#
-#  " 検索対象外のファイル指定
-#"  call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
-#"    \ [
-#"    \  '.git/', '/.terraform/',
-#"    \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/', '.DS_Store'
-#"    \ ])
-#'''
-#
-#
-#[[plugins]]
-#repo = 'Shougo/deoplete.nvim'
-#hook_add = '''
-#  inoremap <expr><tab> pumvisible() ? "\<C-n>" :
-#    \ neosnippet#expandable_or_jumpable() ?
-#    \    "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
-#'''
-#hook_post_source = '''
-#  let g:deoplete#enable_at_startup = 1
-#  let g:deoplete#auto_complete_delay = 0
-#  let g:deoplete#auto_complete_start_length = 1
-#  let g:deoplete#enable_camel_case = 0
-#  let g:deoplete#enable_ignore_case = 0
-#  let g:deoplete#enable_refresh_always = 0
-#  let g:deoplete#enable_smart_case = 1
-#  let g:deoplete#file#enable_buffer_path = 1
-#  let g:deoplete#max_list = 10000
-#  let g:deoplete#omni_patterns = {}
-#  let g:deoplete#omni_patterns.terraform = '[^ *\t"{=$]\w*'
-#  call deoplete#initialize()
-#'''
-#hook_source = '''
-#  let g:deoplete#sources#go#gocode_binary = $GOPATH . '/bin/gocode'
-#'''
-#
-#
-#[[plugins]]
-#repo = 'Shougo/neosnippet.vim'
-#depends = ['neosnippet-snippets']
-#on_ft = ['snippet']
-#hook_add = '''
-#  imap <C-k> <Plug>(neosnippet_expand_or_jump)
-#  smap <C-k> <Plug>(neosnippet_expand_or_jump)
-#  xmap <C-k> <Plug>(neosnippet_expand_target)
-#  if has('conceal')
-#    set conceallevel=2 concealcursor=niv
-#  endif
-#'''
-#
-#
-#[[plugins]]
-#repo = 'Shougo/neosnippet-snippets'
-#
-#
-#
-#[[plugins]]
-#repo = 'tpope/vim-surround'
-#
-#
-#[[plugins]]
-#repo = 'scrooloose/syntastic'
-#
-#
-#[[plugins]]
-#repo = 'majutsushi/tagbar'
-#hook_add = '''
-#  nmap ,t :TagbarToggle<CR>
-#  let g:tagbar_autoshowtag = 1
-#'''
+[[plugins]]
+repo = 'w0rp/ale'
+hook_add = '''
+  let g:ale_set_loclist = 0
+  let g:ale_set_quickfix = 1
+  let g:ale_open_list = 1
+
+  let g:sh_shellcheck_executable = 'shellcheck'
+  let g:ale_completion_enabled = 1
+
+  let g:ale_lint_on_enter = 1
+  let g:ale_lint_on_insert_leave = 1
+  let b:ale_linters = {
+        \'sh': ['shellcheck'],
+        \'terraform': ['tflint']
+        \}
+
+  let g:ale_fix_on_save = 1
+  let b:ale_fixers = {
+        \'tf': ['terraform']
+  \}
+'''
