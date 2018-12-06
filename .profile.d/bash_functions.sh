@@ -53,4 +53,5 @@ function ghq-fzf () {
     fi
   fi
 }
+
 bind -x '"\C-f": ghq-fzf'

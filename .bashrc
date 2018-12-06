@@ -1,9 +1,24 @@
-declare script_dir=( "${HOME}/.profile.d" "/usr/local/etc/bash_completion.d" )
-for d in ${script_dir[@]};do
-  for f in $(ls ${d});do
-    source $d/$f
-  done
+for f in ~/.profile.d/*.sh; do
+  if [ -r "$f" ]; then
+    if [ "${-#*f}" != "$-" ]; then
+      . "$f"
+    else
+      . "$f" > /dev/null 2>&1
+    fi
+  fi
 done
+
+
+for f in /usr/local/etc/bash_completion.d/*; do
+  if [ -r "$f" ]; then
+    if [ "${-#*f}" != "$-" ]; then
+      . "$f"
+    else
+      . "$f" > /dev/null 2>&1
+    fi
+  fi
+done
+
 
 
 # completion
