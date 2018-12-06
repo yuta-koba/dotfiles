@@ -13,6 +13,7 @@ brew 'tree'
 brew 'nvim'
 brew 'coreutils'
 brew 'shellcheck'
+brew 'git-secrets'
 
 cask 'alfred'
 cask 'docker'
