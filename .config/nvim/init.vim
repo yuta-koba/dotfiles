@@ -91,10 +91,4 @@ set conceallevel=0
 let g:vim_json_syntax_conceal = 0
 
 
-"" === terraform-completion-vim ===
-"let g:deoplete#omni_patterns = {}
-"call deoplete#custom#option('omni_patterns', {
-"  \ 'complete_method': 'omnifunc',
-"  \ 'terraform': '[^ *\t"{=$]\w*',
-"  \})
-"call deoplete#initialize()
+au BufNewFile,BufRead *.tf,*.tfvars,*.tfstate setlocal filetype tf
