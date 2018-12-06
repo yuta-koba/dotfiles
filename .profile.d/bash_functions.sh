@@ -1,10 +1,12 @@
+#!/bin/bash
+
 function setaws () {
-  if [ ! $(which awsenv > /dev/null; echo $?) ];then
+  if [ ! "$(type awsenv &> /dev/null)" ];then
     echo "Not installed. [awsenv]"
     exit 1
   fi
 
-  [[ $# -gt 0 ]] && eval "$(awsenv $@)";
+  [[ $# -gt 0 ]] && eval "$(awsenv "$@")";
   export TF_VAR_aws_access_key=${AWS_ACCESS_KEY_ID}
   export TF_VAR_aws_secret_key=${AWS_SECRET_ACCESS_KEY}
   export TF_VAR_aws_region=${AWS_DEFAULT_REGION}
@@ -12,19 +14,19 @@ function setaws () {
 
 function ssm-fzf () {
   # Tags.Name取得
-  export NAME_SSM2EC2=$(aws ec2 describe-instances \
+  name_ssm2ec2=$(aws ec2 describe-instances \
       --query "Reservations[].Instances[].Tags[?contains(Key, \`Name\`)].Value[]" | \
     sed -e 's/[]" ,\[]//g' | \
     sed -e "/^$/d" | \
     fzf)
 
   # instance-id取得
-  export ID_SSM2EC2=$(aws ec2 describe-instances \
-      --query "Reservations[].Instances[?contains(Tags[].Value, \`${NAME_SSM2EC2}\`)].InstanceId[]" | \ 
+  id_ssm2ec2=$(aws ec2 describe-instances \
+      --query "Reservations[].Instances[?contains(Tags[].Value, \`${name_ssm2ec2}\`)].InstanceId[]" | \
     sed -e 's/[]" ,\[]//g' | \
     sed -e '/^$/d')
 
-  aws ssm start-session --target ${ID_SSM2EC2}
+  aws ssm start-session --target "${id_ssm2ec2}"
 }
 
 function usage_docker-taglist () {
@@ -40,16 +42,15 @@ EOF
 }
 
 function docker-taglist () {
-  [ -z $1 ] && usage_docker-taglist
-  REPO=$1
-  curl -s https://registry.hub.docker.com/v1/repositories/$1/tags | jq -r ".[].name" | sort
+  [ -z "$1" ] && usage_docker-taglist
+  curl -s https://registry.hub.docker.com/v1/repositories/"$1"/tags | jq -r ".[].name" | sort
 }
 
 function ghq-fzf () {
-  local selected_dir=$(ghq list --full-path | fzf --query "$LBUFFER")
+  selected_dir=$(ghq list --full-path | fzf --query "$LBUFFER")
   if [ -n "$selected_dir" ]; then
     if [ -t 1 ]; then
-      cd ${selected_dir}
+      cd "${selected_dir}" || return
     fi
   fi
 }

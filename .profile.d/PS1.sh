@@ -1,14 +1,17 @@
-# Normal
-Yellow='\[\e[33m\]'
-Sky='\[\e[36m\]'
+#!/bin/bash
 
-# Bold
+# Normal {{{
+Sky='\[\e[36m\]'
+# }}}
+
+# Bold {{{
 BRed='\[\e[1;31m\]'
 BYellow='\[\e[1;33m\]'
 BSky='\[\e[1;36m\]'
 Reset='\[\e[0m\]'
+# }}}
 
-
+# PS {{{
 PS1="${BSky}\u${Reset}"
 PS1+="${BRed}@${Reset}"
 PS1+="${BYellow}\h${Reset} "
@@ -25,3 +28,4 @@ PS1+="${BSky}(*'-')${Reset} "
 PS1+="${BRed}<${Reset}"
 PS1+="${BYellow}<${Reset}"
 PS1+="${BSky}<${Reset} "
+# }}}

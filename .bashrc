@@ -1,10 +1,12 @@
+#!/bin/bash
+
 # source ~/.profile.d {{{
-for f in ~/.profile.d/*.sh; do
-  if [ -r "$f" ]; then
-    if [ "${-#*f}" != "$-" ]; then
-      . "$f"
+for file in ~/.profile.d/*.sh; do
+  if [ -r "${file}" ]; then
+    if [ "${-#*file}" != "$-" ]; then
+      . "${file}"
     else
-      . "$f" > /dev/null 2>&1
+      . "${file}" > /dev/null 2>&1
     fi
   fi
 done
@@ -13,21 +15,28 @@ done
 
 # completion {{{
 # git
-for f in /usr/local/etc/bash_completion.d/*; do
-  if [ -r "$f" ]; then
-    if [ "${-#*f}" != "$-" ]; then
-      . "$f"
+for file in /usr/local/etc/bash_completion.d/*; do
+  if [ -r "${file}" ]; then
+    if [ "${-#*file}" != "$-" ]; then
+      . "${file}"
     else
-      . "$f" > /dev/null 2>&1
+      . "${file}" > /dev/null 2>&1
     fi
   fi
 done
 
-type terraform > /dev/null && complete -C $(which terraform) terraform
-type packer > /dev/null && complete -C $(which packer) packer
+type terraform > /dev/null && complete -C "$(which terraform)" terraform
+type packer > /dev/null && complete -C "$(which packer)" packer
 
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
 # }}}
 
 
-type dircolors > /dev/null&& eval $(dircolors ~/.dir_colors)
+# dircolors {{{
+export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
+type dircolors > /dev/null&& eval "$(dircolors ~/.dir_colors)"
+# }}}
+
+# utils for diff/git-diff {{{
+export PATH=/usr/local/share/git-core/contrib/diff-highlight:$PATH
+# }}}
