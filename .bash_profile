@@ -20,4 +20,4 @@ export PATH=$GOPATH/bin:$PATH
 # anyenv
 export ANYENV_ROOT="$GHQ_ROOT/github.com/riywo/anyenv"
 export PATH="$ANYENV_ROOT/bin:$PATH"
-
+eval "$(anyenv init -)"
