@@ -79,6 +79,7 @@ set tabstop=2     " タブ幅
 set softtabstop=2
 set shiftwidth=2  " 自動インデントでのインデントの長さ
 
+set foldmethod=marker
 
 " === search ===
 set showmatch
