@@ -12,3 +12,7 @@ function usage_docker-taglist () {
 EOF
 }
 
+function docker-taglist () {
+  [ -z "$1" ] && usage_docker-taglist
+  curl -s https://registry.hub.docker.com/v1/repositories/"$1"/tags | jq -r ".[].name" | sort
+}
