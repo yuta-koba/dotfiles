@@ -12,6 +12,8 @@ alias gc='git commit'
 alias gl='git log --oneline'
 alias gck='git checkout'
 alias gd='git diff'
+alias gscrt='git secrets --scan'
+alias gscrtn='git secrets --scan --no-index'
 
 alias diff='type colordiff > /dev/null && colordiff -u'
 
