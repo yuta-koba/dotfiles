@@ -20,3 +20,5 @@ alias diff='type colordiff > /dev/null && colordiff -u'
 alias tpl='terraform plan | landscape'
 
 alias fz="fzf --ansi --preview 'cat {}' --preview-window down:1"
+
+alias dc="docker-compose"
