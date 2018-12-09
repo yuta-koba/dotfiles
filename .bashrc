@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# dircolors
+export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
+type dircolors > /dev/null&& eval "$(dircolors ~/.dir_colors)"
+
+# diff/git-diff
+export PATH=/usr/local/share/git-core/contrib/diff-highlight:$PATH
+
 # source ~/.profile.d {{{
 for file in ~/.profile.d/*.sh; do
   if [ -r "${file}" ]; then
@@ -11,7 +18,6 @@ for file in ~/.profile.d/*.sh; do
   fi
 done
 # }}}
-
 
 # completion {{{
 # git
@@ -29,14 +35,4 @@ type terraform > /dev/null && complete -C "$(which terraform)" terraform
 type packer > /dev/null && complete -C "$(which packer)" packer
 
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
-# }}}
-
-
-# dircolors {{{
-export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
-type dircolors > /dev/null&& eval "$(dircolors ~/.dir_colors)"
-# }}}
-
-# utils for diff/git-diff {{{
-export PATH=/usr/local/share/git-core/contrib/diff-highlight:$PATH
 # }}}
