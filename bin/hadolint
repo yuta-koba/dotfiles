@@ -1,0 +1,4 @@
+#!/bin/bash
+
+type docker > /dev/null || exit 1
+docker container run -i --rm hadolint/hadolint "$@"
