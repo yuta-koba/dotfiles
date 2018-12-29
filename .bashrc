@@ -38,3 +38,5 @@ type packer > /dev/null && complete -C "$(which packer)" packer
 # }}}
 
 bind -x '"\C-f": ghq-fzf'
+
+tmux
