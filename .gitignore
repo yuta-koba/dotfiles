@@ -2,3 +2,5 @@
 **/.netrwhist
 .config/fzf
 **/bk/
+.DS_Store
+**/plugged/
