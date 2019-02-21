@@ -199,3 +199,4 @@ augroup DebugHighlight
   au!
   autocmd BufWinEnter * match Todo /\<DEBUG\>/
 augroup END
+" }}}
