@@ -194,3 +194,8 @@ augroup vimrc
   au BufNewFile,BufRead Dockerfile* set filetype=dockerfile
   au BufNewFile,BufRead *.tf,*.tfvars,*.tfstate setlocal filetype=terraform
 augroup END
+
+augroup DebugHighlight
+  au!
+  autocmd BufWinEnter * match Todo /\<DEBUG\>/
+augroup END
