@@ -14,6 +14,9 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'jacoborus/tender.vim'
 Plug 'tomasr/molokai'
 
+"
+Plug 'h1mesuke/vim-alignta'
+
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
