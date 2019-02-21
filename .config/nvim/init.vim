@@ -60,6 +60,7 @@ let g:lightline = {
   \    ['gitbranch', 'readonly', 'filename', 'modified'],
   \  ],
   \  'right': [
+  \    ['lineinfo'],
   \    ['fileformat', 'fileencoding', 'filetype']
   \  ]
   \},
@@ -145,7 +146,6 @@ set nobackup
 set viminfo=
 set noundofile
 set clipboard+=unnamedplus
-set number
 set title
 set cursorline
 set ruler
