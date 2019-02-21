@@ -194,6 +194,10 @@ nnoremap <leader>s :source $MYVIMRC<CR>
 inoremap <silent> jj <ESC>
 
 noremap <silent><Esc><ESC> :<C-u>set nohlsearch!<CR>
+
+noremap <leader>lac :LspCodeAction<CR>
+noremap <leader>ldec :LspDeclaration<CR>
+noremap <leader>ldef :LspDefinition<CR>
 " }}}
 
 " ==============================================================================
