@@ -29,6 +29,7 @@ Plug 'junegunn/fzf.vim'
 " Language
 Plug 'stephpy/vim-yaml', {'for': 'yaml'}
 Plug 'cespare/vim-toml', {'for': 'toml'}
+Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries'}
 
 " LSP
 Plug 'prabirshrestha/asyncomplete.vim'
@@ -128,6 +129,16 @@ let g:asyncomplete_auto_popup = 1
 " ------------------------------------------------------------------------------
 let g:indentLine_setColors = 0
 
+
+" ------------------------------------------------------------------------------
+" vim-go
+" ------------------------------------------------------------------------------
+augroup vimgo
+  autocmd!
+  " file types
+  au BufNewFile,BufRead Dockerfile* set filetype=dockerfile
+  au BufNewFile,BufRead *.tf,*.tfvars,*.tfstate setlocal filetype=terraform
+augroup END
 
 " ------------------------------------------------------------------------------
 " vim-terraform
