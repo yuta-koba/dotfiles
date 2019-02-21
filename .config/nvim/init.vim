@@ -61,6 +61,7 @@ let g:lightline = {
   \    ['gitbranch', 'readonly', 'filename', 'modified'],
   \  ],
   \  'right': [
+  \    ['lineinfo'],
   \    ['fileformat', 'fileencoding', 'filetype']
   \  ]
   \},
@@ -123,7 +124,6 @@ imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
 imap <c-x><c-l> <plug>(fzf-complete-line)
 
-
 " ------------------------------------------------------------------------------
 " asyncomplete
 " ------------------------------------------------------------------------------
@@ -158,29 +158,36 @@ let g:terraform_fmt_on_save = 1
 set encoding=utf-8
 set fileformat=unix
 set noswapfile
-set nobackup
+set nobackup " backupを作成しない
 set viminfo=
 set noundofile
 set clipboard+=unnamedplus
-set number
 set title
-set cursorline
+set nocursorcolumn
+set nocursorline
 set ruler
+
+set nrformats=    " 10進数認識に変更
+
+set virtualedit=block " visual-block時、行末を超えて選択可能にする
 
 set t_Co=256
 set laststatus=2
 
 " === tab ===
-set autoindent    " 自動インデント
-set smartindent   " 自動インデント(ブロック対応)
-set expandtab     " tab入力でスペース挿入
-set tabstop=2     " タブ幅
-set softtabstop=2
-set shiftwidth=2  " 自動インデントでのインデントの長さ
+  set smarttab      " 行頭の余白内で<Tab>を入力すると、'shiftwidth'分をインデントする
+  set autoindent    " 自動インデント
+  set smartindent   " 自動インデント(ブロック対応)
+  set expandtab     " tab入力でスペース挿入
+  set tabstop=2     " タブ幅
+  set softtabstop=2
+  set shiftwidth=2  " 自動インデントでのインデントの長さ
 
 " === search ===
-set showmatch
+set showmatch " 対応する括弧をハイライトする
 set hlsearch
+set ignorecase  " 大文字/小文字の区別しない
+set smartcase   " 大文字で検索されたら大文字/小文字を区別する
 
 syntax enable
 colorscheme tender
@@ -215,3 +222,9 @@ augroup vimrc
   au BufNewFile,BufRead Dockerfile* set filetype=dockerfile
   au BufNewFile,BufRead *.tf,*.tfvars,*.tfstate setlocal filetype=terraform
 augroup END
+
+augroup DebugHighlight
+  au!
+  autocmd BufWinEnter * match Todo /\<DEBUG\>/
+augroup END
+" }}}
