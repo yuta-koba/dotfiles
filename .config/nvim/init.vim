@@ -101,17 +101,15 @@ let g:indent_guides_guide_size = 2            " indent-guideの単位
 
 augroup IndentGuide
   autocmd!
-  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=black    ctermbg=lightgray
-  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=darkgray ctermbg=darkgray
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#444433 ctermbg=235
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#333344 ctermbg=237
 augroup END
-
 
 " ------------------------------------------------------------------------------
 " asyncomplete
 " ------------------------------------------------------------------------------
 "let g:asyncomplete_smart_completion = 1
 set completeopt+=preview
-
 
 " ------------------------------------------------------------------------------
 " vim-lsp
@@ -120,7 +118,6 @@ set completeopt+=preview
 let g:lsp_log_verbose = 1
 let g:lsp_log_file = expand('./vim-lsp.log')
 let g:asyncomplete_log_file = expand('./asyncomplete.log')
-
 
 let g:lsp_diagnostics_echo_cursor = 1
 
@@ -131,10 +128,10 @@ let g:lsp_signs_warning = {'text': '‼'}
 augroup VimLsp
   autocmd!
     imap <c-space> <Plug>(asyncomplete_force_refresh)
-  inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
-  autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+    inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+    inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
+    autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 augroup END
 
 if executable('gopls')
@@ -181,12 +178,6 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 " asyncomplete
 " ------------------------------------------------------------------------------
 let g:asyncomplete_auto_popup = 1
-
-
-" ------------------------------------------------------------------------------
-" indentline
-" ------------------------------------------------------------------------------
-let g:indentLine_setColors = 0
 
 
 " ------------------------------------------------------------------------------
