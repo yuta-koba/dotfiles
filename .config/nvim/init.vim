@@ -36,7 +36,7 @@ Plug 'nathanaelkane/vim-indent-guides'
 " Language
 Plug 'stephpy/vim-yaml', {'for': 'yaml'}
 Plug 'cespare/vim-toml', {'for': 'toml'}
-Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries'}
+"Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoInstallBinaries'}
 
 " LSP
 Plug 'prabirshrestha/asyncomplete.vim'
@@ -116,11 +116,26 @@ set completeopt+=preview
 " ------------------------------------------------------------------------------
 " vim-lsp
 " ------------------------------------------------------------------------------
+" debug
+let g:lsp_log_verbose = 1
+let g:lsp_log_file = expand('./vim-lsp.log')
+let g:asyncomplete_log_file = expand('./asyncomplete.log')
+
+
 let g:lsp_diagnostics_echo_cursor = 1
 
 let g:lsp_signs_enabled = 1         " enable signs
 let g:lsp_signs_error = {'text': '✗'}
 let g:lsp_signs_warning = {'text': '‼'}
+
+augroup VimLsp
+  autocmd!
+    imap <c-space> <Plug>(asyncomplete_force_refresh)
+  inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
+  autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+augroup END
 
 if executable('gopls')
   " go get -u golang.org/x/tools/cmd/gopls
@@ -177,12 +192,21 @@ let g:indentLine_setColors = 0
 " ------------------------------------------------------------------------------
 " vim-go
 " ------------------------------------------------------------------------------
-augroup vimgo
-  autocmd!
-  " file types
-  "au BufNewFile,BufRead Dockerfile* set filetype=dockerfile
-  "au BufNewFile,BufRead *.tf,*.tfvars,*.tfstate setlocal filetype=terraform
-augroup END
+"augroup vimgo
+"  autocmd!
+"  let g:go_highlight_types = 1
+"  let g:go_highlight_fields = 1
+"  let g:go_highlight_functions = 1
+"  let g:go_highlight_function_calls = 1
+"  let g:go_highlight_operators = 1
+"  let g:go_highlight_extra_types = 1
+"
+"  let g:go_fmt_command = "goimports"
+"
+"  autocmd FileType go nmap <leader>b  <Plug>(go-build)
+"  autocmd FileType go nmap <leader>r  <Plug>(go-run)
+"  autocmd FileType go nmap <leader>t  <Plug>(go-test)
+"augroup END
 
 
 " ------------------------------------------------------------------------------
