@@ -17,9 +17,6 @@ Plug 'vim-jp/vimdoc-ja'
 Plug 'jacoborus/tender.vim'
 Plug 'tomasr/molokai'
 
-"
-Plug 'h1mesuke/vim-alignta'
-
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
@@ -28,12 +25,13 @@ Plug 'airblade/vim-gitgutter'
 Plug 'itchyny/lightline.vim'
 
 " Browsing
-Plug 'Yggdroot/indentLine'
 Plug 'junegunn/fzf', {'do': './install --all'}
 Plug 'junegunn/fzf.vim'
 
 " Edit 
 Plug 'junegunn/vim-easy-align'
+"Plug 'Yggdroot/indentLine'
+Plug 'nathanaelkane/vim-indent-guides'
 
 " Language
 Plug 'stephpy/vim-yaml', {'for': 'yaml'}
@@ -94,10 +92,26 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 " ------------------------------------------------------------------------------
+" vim-indent-guides
+" ------------------------------------------------------------------------------
+nmap <leader>ig  <Plug>IndentGuidesToggle<CR>
+let g:indent_guides_enable_on_vim_startup = 1 " vim起動時にindent-guide起動
+let g:indent_guides_auto_colors = 0           " colorschemeの色を使用しないように設定
+let g:indent_guides_guide_size = 2            " indent-guideの単位
+
+augroup IndentGuide
+  autocmd!
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=black    ctermbg=lightgray
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=darkgray ctermbg=darkgray
+augroup END
+
+
+" ------------------------------------------------------------------------------
 " asyncomplete
 " ------------------------------------------------------------------------------
 "let g:asyncomplete_smart_completion = 1
 set completeopt+=preview
+
 
 " ------------------------------------------------------------------------------
 " vim-lsp
@@ -166,8 +180,8 @@ let g:indentLine_setColors = 0
 augroup vimgo
   autocmd!
   " file types
-  au BufNewFile,BufRead Dockerfile* set filetype=dockerfile
-  au BufNewFile,BufRead *.tf,*.tfvars,*.tfstate setlocal filetype=terraform
+  "au BufNewFile,BufRead Dockerfile* set filetype=dockerfile
+  "au BufNewFile,BufRead *.tf,*.tfvars,*.tfstate setlocal filetype=terraform
 augroup END
 
 
@@ -186,8 +200,8 @@ syntax enable
 colorscheme tender
 
 " file
-set encoding=utf-8  " vimでの文字エンコーディング
-set fileformat=unix " カレントバッファの改行コード指定
+set encoding=utf-8         " vimでの文字エンコーディング
+set fileformat=unix        " カレントバッファの改行コード指定
 
 " edit
 set clipboard+=unnamedplus " clipboardとの連携
@@ -201,25 +215,25 @@ set nrformats=             " 10進数認識に変更
 set virtualedit=block      " visual-block時、行末を超えて選択可能にする
 
 " tab
-set smarttab      " 行頭の余白内で<Tab>を入力すると、'shiftwidth'分をインデントする
-set autoindent    " 自動インデント
-set smartindent   " 自動インデント(ブロック対応)
-set tabstop=2     " ファイル内の<Tab>が対応する空白の数
-set softtabstop=2 " 編集で<Tab>の幅として使用する空白の数
-set expandtab     " 挿入モードで<Tab>入力時、代わりに使う空白の数
-set shiftwidth=2  " 自動インデントでのインデントの長さ
+set smarttab               " 行頭の余白内で<Tab>を入力すると、'shiftwidth'分をインデントする
+set autoindent             " 自動インデント
+set smartindent            " 自動インデント(ブロック対応)
+set tabstop=2              " ファイル内の<Tab>が対応する空白の数
+set softtabstop=2          " 編集で<Tab>の幅として使用する空白の数
+set expandtab              " 挿入モードで<Tab>入力時、代わりに使う空白の数
+set shiftwidth=2           " 自動インデントでのインデントの長さ
 
 " search
-set showmatch  " 対応する括弧をハイライトする
-set hlsearch   " 検索結果をハイライト
-set ignorecase " 大文字/小文字の区別しない
-set smartcase  " 大文字で検索されたら大文字/小文字を区別する
+set showmatch              " 対応する括弧をハイライトする
+set hlsearch               " 検索結果をハイライト
+set ignorecase             " 大文字/小文字の区別しない
+set smartcase              " 大文字で検索されたら大文字/小文字を区別する
 
 " json
-set conceallevel=0 " ダブルクォーテーションを表示
-let g:vim_json_syntax_conceal = 0
-
+set conceallevel=0         " ダブルクォーテーションを表示
+"let g:vim_json_syntax_conceal = 0  " Yggrdroot/indentLineで2にしている設定を0に戻す
 " }}}
+
 " ==============================================================================
 " key-mappings {{{
 " ==============================================================================
