@@ -7,3 +7,4 @@
 .config/hub
 .config/direnv/*
 .config/dlv/.dbg_history
+.config/anyenv/*
