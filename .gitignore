@@ -4,3 +4,6 @@
 **/bk/
 .DS_Store
 **/plugged/
+.config/hub
+.config/direnv/*
+.config/dlv/.dbg_history
