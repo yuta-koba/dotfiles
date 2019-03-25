@@ -2,25 +2,44 @@ cask_args appdir: '/Applications'
 tap 'caskroom/cask'
 
 brew 'mas'
+brew 'zlib'
+brew 'coreutils'
+brew 'bash'
+brew 'zsh'
+
+brew 'curl'
 brew 'git'
 brew 'tig'
-brew 'jq'
-brew 'bash'
-brew 'zlib'
-brew 'curl'
 brew 'gist'
 brew 'tree'
+brew 'jq'
 brew 'nvim'
-brew 'coreutils'
+#brew 'macvim'
+
+brew 'colordiff'
+brew 'ctags'
+
 brew 'shellcheck'
 brew 'git-secrets'
+brew 'the_silver_searcher'
 
-cask 'alfred'
-cask 'docker'
+# develop
 cask 'google-chrome'
-cask 'paw'
+cask 'docker'
+cask 'oni'
 cask 'visual-studio-code'
-cask 'discord'
+cask 'paw'
 
-mas 'pocket', id: 568494494
-mas 'Slack', id: 803453959
+# util
+cask 'alfred'
+cask 'keycastr'
+cask 'duet'
+cask 'station'
+
+# communication
+#cask 'discord' -> station
+cask 'kindle'
+cask 'qmk-toolbox'
+
+#mas 'pocket', id: 568494494 -> station
+#mas 'Slack', id: 803453959 -> station
