@@ -44,6 +44,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'majutsushi/tagbar'
 Plug 'itchyny/lightline.vim'
 "Plug 'liuchengxu/vista.vim'
+Plug 'mattn/sonictemplate-vim'
 
 " Dark power
 Plug 'Shougo/denite.nvim', {'do': 'UpdateRemotePlugins'}
@@ -333,10 +334,12 @@ augroup vimgo
   autocmd!
   let g:go_highlight_types = 1
   let g:go_highlight_fields = 1
-  let g:go_highlight_functions = 0
+  let g:go_highlight_functions = 1
   let g:go_highlight_function_calls = 1
   let g:go_highlight_operators = 1
   let g:go_highlight_extra_types = 1
+  let g:go_highlight_generate_tags = 1
+  let g:go_highlight_variable_declarations = 1
 
   let g:go_term_mode = "split"
   let g:go_term_height = 10
@@ -419,7 +422,6 @@ set list                   " 不可視文字を表示
 set listchars=tab:>-,trail:-,extends:>,precedes:<
 set binary noeol           " ファイル末尾にeolを付けない
 set foldmethod=marker
-set modifiable
 set write
 set scrolloff=0
 
