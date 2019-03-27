@@ -29,6 +29,7 @@ Plug 'jacoborus/tender.vim'
 Plug 'tomasr/molokai'
 Plug 'arcticicestudio/nord-vim'
 
+
 " Git / Gist
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
@@ -42,6 +43,7 @@ Plug 'junegunn/fzf', {'do': './install --all'}
 Plug 'junegunn/fzf.vim'
 Plug 'majutsushi/tagbar'
 Plug 'itchyny/lightline.vim'
+"Plug 'liuchengxu/vista.vim'
 
 " Dark power
 Plug 'Shougo/denite.nvim', {'do': 'UpdateRemotePlugins'}
@@ -60,7 +62,7 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'natebosch/vim-lsc'
 
-" Language
+" Language / Filetype
 Plug 'fatih/vim-go',              { 'for': 'go', 'do': ':GoInstallBinaries'}
 Plug 'ryanolsonx/vim-lsp-python', { 'for': 'python'}
 Plug 'stephpy/vim-yaml',          { 'for': 'yaml'}
@@ -74,7 +76,7 @@ Plug 'honza/dockerfile.vim'
 Plug 'hashivim/vim-terraform'
 
 " Now testing
-"  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins'}
+"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins'}
 "if !has('nvim')
 "  Plug 'roxma/nvim-yarp'
 "  Plug 'roxma/vim-hug-neovim-rpc'
@@ -92,7 +94,7 @@ call plug#end()
 " denite
 " ------------------------------------------------------------------------------
 " grep
-call denite#custom#var('grep', 'command', ['pt'])
+call denite#custom#var('grep', 'command', ['ag'])
 call denite#custom#var('grep', 'default_opts', ['-i', '--smart-case'])
 call denite#custom#var('grep', 'recursive_opts', [])
 call denite#custom#var('grep', 'pattern_opt', [])

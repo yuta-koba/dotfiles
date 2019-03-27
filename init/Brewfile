@@ -9,19 +9,14 @@ brew 'zsh'
 
 brew 'curl'
 brew 'git'
-brew 'tig'
 brew 'gist'
 brew 'tree'
-brew 'jq'
 brew 'nvim'
 #brew 'macvim'
 
 brew 'colordiff'
 brew 'ctags'
-
 brew 'shellcheck'
-brew 'git-secrets'
-brew 'the_silver_searcher'
 
 # develop
 cask 'google-chrome'

@@ -17,7 +17,7 @@ alias gc='git commit'
 alias gl='git log --oneline'
 alias gd='git diff'
 
-#alias diff='type colordiff > /dev/null && colordiff -u || diff'
+alias diff='type colordiff > /dev/null && colordiff -u || diff'
 alias dc='docker-compose'
 # }}}
 
@@ -62,6 +62,7 @@ if [[ -f ~/.zplug/init.zsh ]]; then
   zplug "zsh-users/zsh-completions"
   zplug "glidenote/hub-zsh-completion"
   zplug "Valodim/zsh-curl-completion"
+  zplug "aws/aws-cli", use:"bin/aws_zsh_completer.sh"
 
   # prompt
   zplug "modules/git", from:prezto
@@ -70,12 +71,19 @@ if [[ -f ~/.zplug/init.zsh ]]; then
   zstyle ':prezto:module:prompt' theme 'sorin'
 
   zplug "junegunn/fzf-bin",                     as:command, from:gh-r, rename-to:"fzf"
-  zplug "junegunn/fzf",                         use:shell/completion.zsh
-  zplug "junegunn/fzf",                         use:shell/key-bindings.zsh
+  zplug "junegunn/fzf",                         use:"shell/(completion|key-bindings).zsh"
   zplug "stedolan/jq",                          as:command, from:gh-r, rename-to:"jq"
   zplug "motemen/ghq",                          as:command, from:gh-r, rename-to:"ghq"
   zplug "monochromegane/the_platinum_searcher", as:command, from:gh-r, rename-to:"pt"
   zplug "github/hub",                           as:command, from:gh-r, rename-to:"hub"
+  zplug "direnv/direnv",                        as:command, from:gh-r, rename-to:"direnv", hook-build:"make"
+  zplug "jonas/tig",                            as:command, hook-build:"make", use:"src/tig"
+  zplug "awslabs/git-secrets",                  as:command, hook-build:"PREFIX=~/.zplug make install"
+  zplug "daveewart/colordiff",                  as:command, use:"colordiff.pl", rename-to:"colordiff"
+
+  if [[ $(type dirne) > /dev/null ]];then
+    eval "$(direnv hook zsh)"
+  fi
   # }}}
 
   if ! zplug check --verbose; then
