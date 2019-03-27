@@ -3,6 +3,7 @@
 --exclude=.terraform
 --langdef=terraform
 --langmap=terraform:.tf.tfvars
+--regex-terraform=/^provider "(.+)"/\1/p,provider/
 --regex-terraform=/^resource "(.+)" "(.+)"/\1 \2/r,resources/
 --regex-terraform=/^variable "(.+)"/\1/v,variables/
 --regex-terraform=/^module "(.+)"/\1/m,modules/
