@@ -43,7 +43,7 @@ exports.configuration = {
     // UI customizations
     "ui.animations.enabled": true,
     "ui.fontSmoothing": "auto",
-    "ui.colorscheme": "nord",
+    "ui.colorscheme": "tender",
     "sidebar.enabled": false,
     //"sidebar.default.open": false,
     "statusbar.enabled": false,
