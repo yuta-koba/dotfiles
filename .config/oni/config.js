@@ -40,6 +40,7 @@ exports.configuration = {
         "/usr/local/bin",
         "/Users/lunarxlark/.zplug/bin"
     ],
+    "language.go.languageServer.command": "bingo",
     // UI customizations
     "ui.animations.enabled": true,
     "ui.fontSmoothing": "auto",

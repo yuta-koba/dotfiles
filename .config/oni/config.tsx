@@ -29,7 +29,7 @@ export const configuration = {
 
     "browser.defaultUrl": "https://google.com",
 
-  "experimental.vcs.sidebar": true,
+    "experimental.vcs.sidebar": true,
     "experimental.indentLines.enabled": true,
     "experimental.markdownPreview.enabled": true,
 
@@ -53,10 +53,12 @@ export const configuration = {
       "/Users/lunarxlark/.zplug/bin"
     ],
 
+  "language.go.languageServer.command": "bingo",
+
     // UI customizations
     "ui.animations.enabled": true,
     "ui.fontSmoothing": "auto",
-    "ui.colorscheme": "nord",
+    "ui.colorscheme": "tender",
 
     "sidebar.enabled": false,
     //"sidebar.default.open": false,
