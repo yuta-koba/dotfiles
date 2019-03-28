@@ -8,7 +8,7 @@ export XDG_CACHE_HOME=~/.cache
 # go
 export GO111MODULE=on
 export GOPATH=$HOME/dev
-export GOROOT=$HOME/dev
+#export GOROOT=$HOME/dev
 export PATH=$GOPATH/bin:$PATH
 
 # ghq
