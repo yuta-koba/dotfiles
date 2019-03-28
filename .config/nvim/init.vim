@@ -50,18 +50,22 @@ Plug 'mattn/sonictemplate-vim'
 Plug 'Shougo/denite.nvim', {'do': 'UpdateRemotePlugins'}
 Plug 'Shougo/neomru.vim'
 Plug 'Jagua/vim-denite-ghq'
-Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+"Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 
 " Completion
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 " LSP
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'natebosch/vim-lsc'
+"Plug 'prabirshrestha/asyncomplete.vim'
+"Plug 'prabirshrestha/async.vim'
+"Plug 'prabirshrestha/vim-lsp'
+"Plug 'prabirshrestha/asyncomplete-lsp.vim'
+"Plug 'natebosch/vim-lsc'
+Plug 'autozimu/LanguageClient-neovim', {
+      \ 'branch': 'next',
+      \ 'do': 'bash install.sh',
+      \}
 
 " Language / Filetype
 Plug 'fatih/vim-go',              { 'for': 'go', 'do': ':GoInstallBinaries'}
@@ -77,7 +81,9 @@ Plug 'honza/dockerfile.vim'
 Plug 'hashivim/vim-terraform'
 
 " Now testing
-"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins'}
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins'}
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
 "if !has('nvim')
 "  Plug 'roxma/nvim-yarp'
 "  Plug 'roxma/vim-hug-neovim-rpc'
@@ -252,16 +258,16 @@ let g:tagbar_type_terraform = {
 "let g:asyncomplete_log_file = expand('./asyncomplete.log')
 
 "set completeopt+=preview
-let g:asyncomplete_smart_completion = 1
-let g:asyncomplete_auto_popup = 1
-augroup Asyncomplete
-  autocmd!
-    imap <c-space> <Plug>(asyncomplete_force_refresh)
-    inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-    inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
-    autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-augroup END
+"let g:asyncomplete_smart_completion = 1
+"let g:asyncomplete_auto_popup = 1
+"augroup Asyncomplete
+"  autocmd!
+"    imap <c-space> <Plug>(asyncomplete_force_refresh)
+"    inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+"    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+"    inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
+"    autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+"augroup END
 
 " ------------------------------------------------------------------------------
 " vim-lsp
@@ -270,49 +276,49 @@ augroup END
 "let g:lsp_log_verbose = 1
 "let g:lsp_log_file = expand('./vim-lsp.log')
 
-let g:lsp_async_completion = 1
-
-let g:lsp_diagnostics_enabled = 1
-let g:lsp_diagnostics_echo_delay = 0
-let g:lsp_diagnostics_echo_cursor = 1
-
-let g:lsp_signs_enabled = 1         " enable signs
-let g:lsp_signs_error = {'text': '✗'}
-let g:lsp_signs_warning = {'text': '‼'}
-
-augroup VimLsp
-  autocmd!
-  autocmd Filetype go,python nmap <buffer> <leader>ac <plug>(lsp-code-action)
-  autocmd Filetype go,python nmap <buffer> <leader>df <plug>(lsp-document-format)
-  autocmd Filetype go,python nmap <buffer> <leader>dec <plug>(lsp-declaration)
-  autocmd Filetype go,python nmap <buffer> <leader>def <plug>(lsp-definition)
-augroup END
-
-if executable('pyls')
-  " pip install 'python-language-server[all]'
-  augroup pyls
-    autocmd!
-    autocmd User lsp_setup call lsp#register_server({
-          \ 'name': 'pyls',
-          \ 'cmd': {server_info->['pyls']},
-          \ 'whitelist': ['python'],
-          \})
-  augroup END
-endif
-
-if executable('gopls')
-  " go get -u golang.org/x/tools/cmd/gopls
-  augroup gopls
-    autocmd!
-    autocmd User lsp_setup call lsp#register_server({
-          \ 'name': 'gopls',
-          \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
-          \ 'whitelist' : ['go'],
-          \ })
-    autocmd FileType go setlocal omnifunc=lsp#complete
-  augroup END
-endif
-
+"let g:lsp_async_completion = 1
+"
+"let g:lsp_diagnostics_enabled = 1
+"let g:lsp_diagnostics_echo_delay = 0
+"let g:lsp_diagnostics_echo_cursor = 1
+"
+"let g:lsp_signs_enabled = 1         " enable signs
+"let g:lsp_signs_error = {'text': '✗'}
+"let g:lsp_signs_warning = {'text': '‼'}
+"
+"augroup VimLsp
+"  autocmd!
+"  autocmd Filetype go,python nmap <buffer> <leader>ac <plug>(lsp-code-action)
+"  autocmd Filetype go,python nmap <buffer> <leader>df <plug>(lsp-document-format)
+"  autocmd Filetype go,python nmap <buffer> <leader>dec <plug>(lsp-declaration)
+"  autocmd Filetype go,python nmap <buffer> <leader>def <plug>(lsp-definition)
+"augroup END
+"
+"if executable('pyls')
+"  " pip install 'python-language-server[all]'
+"  augroup pyls
+"    autocmd!
+"    autocmd User lsp_setup call lsp#register_server({
+"          \ 'name': 'pyls',
+"          \ 'cmd': {server_info->['pyls']},
+"          \ 'whitelist': ['python'],
+"          \})
+"  augroup END
+"endif
+"
+"if executable('gopls')
+"  " go get -u golang.org/x/tools/cmd/gopls
+"  augroup gopls
+"    autocmd!
+"    autocmd User lsp_setup call lsp#register_server({
+"          \ 'name': 'gopls',
+"          \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
+"          \ 'whitelist' : ['go'],
+"          \ })
+"    autocmd FileType go setlocal omnifunc=lsp#complete
+"  augroup END
+"endif
+"
 "if executable('bingo')
 "  " go get -u github.com/saibing/bingo
 "  augroup bingo
@@ -326,6 +332,24 @@ endif
 "    "autocmd BufWritePre <buffer> LspDocumentFormat
 "  augroup END
 "endif
+
+" ------------------------------------------------------------------------------
+" LanguageClient-neovim
+" ------------------------------------------------------------------------------
+let g:LanguageClient_rootMarkers = {
+        \ 'go': ['.git', 'go.mod'],
+        \ }
+
+let g:LanguageClient_serverCommands = {
+    \ 'python': ['/usr/local/bin/pyls'],
+    \ 'go': ['bingo'],
+    \ }
+
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+nnoremap <leader>ho :call LanguageClient#textDocument_hover()<CR>
+nnoremap <leader>df :call LanguageClient#textDocument_definition()<CR>
+nnoremap <leader>df :call LanguageClient#textDocument_definition()<CR>
+nnoremap <leader>rn :call LanguageClient#textDocument_rename()<CR>
 
 " ------------------------------------------------------------------------------
 " vim-go
@@ -366,24 +390,37 @@ let g:UltiSnipsSnippetDirectories = [ 'UltiSnips', $HOME.'/.config/UltiSnips/aws
 let g:UltiSnipsExpandTrigger="<c-e>"
 let g:UltiSnipsJumpForwardTrigger="<c-f>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
-call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
-    \ 'name': 'ultisnips',
-    \ 'whitelist': ['*'],
-    \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
-    \ }))
+"call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
+"    \ 'name': 'ultisnips',
+"    \ 'whitelist': ['*'],
+"    \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
+"    \ }))
 
 " ------------------------------------------------------------------------------
 " deoplete {{{
 " ------------------------------------------------------------------------------
-"let g:deoplete#enable_at_startup = 1
-"let g:deoplete#enable_ignore_case = 1
-"let g:deoplete#source#yaml = ['buffer', 'file', 'ultisnips']
-"call deoplete#custom#option({
-"      \ 'auto_complete_delay': 0,
-"      \ 'auto_refresh_delay': 0,
-"      \ 'min_pattern_length': 1,
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_ignore_case = 1
+let g:deoplete#source#yaml = ['buffer', 'file', 'ultisnips']
+call deoplete#custom#option({
+      \ 'auto_complete_delay': 0,
+      \ 'auto_refresh_delay': 0,
+      \ 'min_pattern_length': 1,
+      \})
+
+"call deoplete#custom#option('sources', {
+"      \ 'python3': ['LanguageClient'],
+"      \ 'go': ['LanguageClient'],
 "      \})
-"}}}
+
+call deoplete#custom#source(
+      \ 'LanguageClient',
+      \ 'min_pattern_length',
+      \ 1)
+
+autocmd BufEnter * call ncm2#enable_for_buffer()
+inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+set completeopt=noinsert,menuone,noselect
 
 " ------------------------------------------------------------------------------
 " vim-terraform
@@ -463,7 +500,8 @@ nnoremap <leader><Tab>p :tabp<CR>
 
 nnoremap <leader>n :cnext<CR>
 nnoremap <leader>p :cprevious<CR>
-nnoremap <leader>tt :term ++close ++curwin<CR>
+
+nnoremap <leader>tr :belowright split \| :terminal<CR>
 " }}}
 
 " ==============================================================================
