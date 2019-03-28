@@ -24,7 +24,7 @@ cask 'google-chrome'
 cask 'docker'
 cask 'oni'
 cask 'visual-studio-code'
-cask 'paw'
+cask 'postman'
 
 # util
 cask 'alfred'
