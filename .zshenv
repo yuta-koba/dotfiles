@@ -21,6 +21,9 @@ export ANYENV_ROOT=/Users/lunarxlark/dev/src/github.com/anyenv/anyenv
 export PATH=$ANYENV_ROOT/bin:$PATH
 eval "$(anyenv init -)"
 
+export PATH=~/.local/bin:$PATH
+export PATH=~/Library/Python/3.7/bin:$PATH
+
 HISTFILE=~/.zsh_history
 HISTSIZE=1000000
 SAVEHIST=1000000
