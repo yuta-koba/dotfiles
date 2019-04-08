@@ -30,11 +30,12 @@ exports.configuration = {
     "experimental.vcs.blame.timeout": 0,
     "oni.loadInitVim": true,
     "oni.hideMenu": true,
+    "autoClosingPairs.enabled": false,
     //"editor.fontFamily": "Monaco",
     "editor.fontSize": "15px",
     "editor.quickInfo.delay": 0,
     "editor.linePadding": 0,
-    "editor.fullScreenOnStart": true,
+    "editor.fullScreenOnStart": false,
     "environment.additionalPaths": [
         "/usr/bin",
         "/usr/local/bin",

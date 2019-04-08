@@ -17,7 +17,7 @@ export GHQ_ROOT=$GOPATH/src
 # anyenv
 #export GOENV_DISABLE_GOROOT=1
 export GOENV_DISABLE_GOPATH=1
-export ANYENV_ROOT=/Users/lunarxlark/dev/src/github.com/anyenv/anyenv
+export ANYENV_ROOT=~/dev/src/github.com/anyenv/anyenv
 export PATH=$ANYENV_ROOT/bin:$PATH
 eval "$(anyenv init -)"
 

@@ -35,7 +35,10 @@ cask 'station'
 # communication
 #cask 'discord' -> station
 cask 'kindle'
-cask 'qmk-toolbox'
+cask 'java'
+cask 'dbeaver-community'
+#cask 'sequel-pro'
+#cask 'qmk-toolbox'
 
 #mas 'pocket', id: 568494494 -> station
 #mas 'Slack', id: 803453959 -> station

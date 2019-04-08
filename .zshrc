@@ -10,15 +10,17 @@ alias l='ls -Ga'
 alias ll='ls -lGa'
 alias ..='cd .. && ll'
 alias ...='cd ../../ && ll'
-alias cdg='cd $GOPATH'
 alias gs='git status'
 alias ga='git add'
 alias gc='git commit'
 alias gl='git log --oneline'
 alias gd='git diff'
+alias cdg='cd ~/dev/src/github.com/yuta_kobayashi/gist'
 
 alias diff='type colordiff > /dev/null && colordiff -u || diff'
 alias dc='docker-compose'
+
+alias cfn='aws cloudformation'
 # }}}
 
 # ### Option {{{
@@ -57,8 +59,6 @@ if [[ -f ~/.zplug/init.zsh ]]; then
   zplug "zsh-users/zsh-history-substring-search"
   zplug "zsh-users/zsh-syntax-highlighting", defer:2
   
-  zplug "tcnksm/docker-alias", use:zshrc
-  
   zplug "zsh-users/zsh-completions"
   zplug "glidenote/hub-zsh-completion"
   zplug "Valodim/zsh-curl-completion"
@@ -76,11 +76,11 @@ if [[ -f ~/.zplug/init.zsh ]]; then
   zplug "motemen/ghq",                          as:command, from:gh-r, rename-to:"ghq"
   zplug "monochromegane/the_platinum_searcher", as:command, from:gh-r, rename-to:"pt"
   zplug "github/hub",                           as:command, from:gh-r, rename-to:"hub"
-  zplug "direnv/direnv",                        as:command, from:gh-r, rename-to:"direnv", hook-build:"make"
   zplug "jonas/tig",                            as:command, hook-build:"make", use:"src/tig"
   zplug "awslabs/git-secrets",                  as:command, hook-build:"PREFIX=~/.zplug make install"
   zplug "daveewart/colordiff",                  as:command, use:"colordiff.pl", rename-to:"colordiff"
 
+  zplug "direnv/direnv",                        as:command, from:gh-r, rename-to:"direnv", hook-build:"chmod 755 direnv\.*"
   if [[ $(type dirne) > /dev/null ]];then
     eval "$(direnv hook zsh)"
   fi
@@ -122,12 +122,27 @@ fd() {
 zle     -N   fd
 bindkey '^F' fd
 
-docker-taglist() {
+dtls() {
   if [[ -z $REGISTRY_URL ]]; then
     REGISTRY_URL="https://registry.hub.docker.com/v1/repositories"
   fi
   #curl -s https://registry.hub.docker.com/v1/repositories/"$1"/tags | jq -r ".[].name" | sort
-  curl -s $REGISTRY_URL/"$1"/tags | jq -r ".[].name" | sort
+  curl -s $REGISTRY_URL/"$1"/tags | jq -r ".[].name" | sort | fzf --height=40%
+}
+
+dpull() {
+ tag="$(dtls $1)"
+ docker pull $1:"$tag"
+}
+
+drmi() {
+  image="$(docker images | fzf --height=40% --reverse --header-lines=1 | awk '{print $3}')"
+  docker rmi $image
+}
+
+drmf() {
+  proc="$(docker ps | fzf --height=40% --reverse --header-lines=1 | awk '{print $1}')"
+  docker stop $proc && docker rm $proc
 }
 
 ssm-fzf() {
@@ -151,3 +166,5 @@ hadolint() {
   docker container run -i --rm hadolint/hadolint "$@"
 }
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

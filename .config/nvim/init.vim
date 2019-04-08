@@ -34,6 +34,7 @@ Plug 'arcticicestudio/nord-vim'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'mattn/gist-vim'
+Plug 'mattn/webapi-vim'
 
 " Edit
 Plug 'tpope/vim-surround'
@@ -45,6 +46,7 @@ Plug 'majutsushi/tagbar'
 Plug 'itchyny/lightline.vim'
 "Plug 'liuchengxu/vista.vim'
 Plug 'mattn/sonictemplate-vim'
+Plug 'mechatroner/rainbow_csv'
 
 " Dark power
 Plug 'Shougo/denite.nvim', {'do': 'UpdateRemotePlugins'}
@@ -101,13 +103,14 @@ call plug#end()
 " denite
 " ------------------------------------------------------------------------------
 " grep
-call denite#custom#var('grep', 'command', ['ag'])
+call denite#custom#var('grep', 'command', ['pt'])
 call denite#custom#var('grep', 'default_opts', ['-i', '--smart-case'])
 call denite#custom#var('grep', 'recursive_opts', [])
 call denite#custom#var('grep', 'pattern_opt', [])
 call denite#custom#var('grep', 'separator', ['--'])
 call denite#custom#var('grep', 'final_opts', [])
 
+noremap ,db :Denite buffer<CR>
 noremap ,df :Denite file/rec -split=tab -auto-preview -vertical-preview<CR>
 noremap ,dmf :Denite file_mru -split=tab -auto-preview -vertical-preview<CR>
 noremap ,dd :Denite directory_rec -winheight=10<CR>
@@ -342,14 +345,19 @@ let g:LanguageClient_rootMarkers = {
 
 let g:LanguageClient_serverCommands = {
     \ 'python': ['/usr/local/bin/pyls'],
-    \ 'go': ['bingo'],
+    \ 'go': ['gopls'],
     \ }
+
+autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
 
 nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 nnoremap <leader>ho :call LanguageClient#textDocument_hover()<CR>
 nnoremap <leader>df :call LanguageClient#textDocument_definition()<CR>
-nnoremap <leader>df :call LanguageClient#textDocument_definition()<CR>
 nnoremap <leader>rn :call LanguageClient#textDocument_rename()<CR>
+
+"let g:LanguageClient_loggingLevel = 'DEBUG'
+"let g:LanguageClient_loggingFile =  expand('~/.config/nvim/LanguageClient.log')
+"let g:LanguageClient_serverStderr = expand('~/.config/nvim/LanguageServer.log')
 
 " ------------------------------------------------------------------------------
 " vim-go
@@ -440,10 +448,11 @@ set background=light
 " file
 set encoding=utf-8           " vimでの文字エンコーディング
 set termencoding=utf-8       " terminalでの文字エンコーディング
+set fileencodings=sjis,utf-8 " バッファの改行コード指定
 set fileformats=unix,dos,mac " バッファの改行コード指定
 
 " edit
-"set clipboard+=unnamedplus " clipboardとの連携
+set clipboard+=unnamedplus " clipboardとの連携
 set noswapfile             " swapファイルを作成しない
 set nobackup               " backupを作成しない
 set viminfo=               " viminfoファイルを作成しない
@@ -485,8 +494,8 @@ set conceallevel=0         " ダブルクォーテーションを表示
 " ==============================================================================
 " key-mappings {{{
 " ==============================================================================
-nnoremap <leader>v :split \| :edit $MYVIMRC<CR>
-nnoremap <leader>V :split \| :edit $MYGVIMRC<CR>
+nnoremap <leader>v :tabnew $MYVIMRC<CR>
+nnoremap <leader>V :tabnew $MYGVIMRC<CR>
 nnoremap <leader>s :source $MYVIMRC<CR>
 nnoremap <leader>S :source $MYGVIMRC<CR>
 
