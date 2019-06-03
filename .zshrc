@@ -4,6 +4,7 @@ bindkey -v
 alias v='nvim'
 alias vi='nvim'
 
+alias E='exec $SHELL -l'
 alias cp='cp -i'
 alias mv='mv -i'
 alias l='ls -Ga'
@@ -141,6 +142,11 @@ drmi() {
 }
 
 drmf() {
+  proc="$(docker ps -a | fzf --height=40% --reverse --header-lines=1 | awk '{print $1}')"
+  docker kill $proc && docker rm $proc
+}
+
+drm() {
   proc="$(docker ps | fzf --height=40% --reverse --header-lines=1 | awk '{print $1}')"
   docker stop $proc && docker rm $proc
 }
@@ -165,6 +171,5 @@ ssm-fzf() {
 hadolint() {
   docker container run -i --rm hadolint/hadolint "$@"
 }
-
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
