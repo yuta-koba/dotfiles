@@ -433,28 +433,28 @@ let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 " ------------------------------------------------------------------------------
 " deoplete {{{
 " ------------------------------------------------------------------------------
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_ignore_case = 1
-let g:deoplete#source#yaml = ['buffer', 'file', 'ultisnips']
-call deoplete#custom#option({
-      \ 'auto_complete_delay': 0,
-      \ 'auto_refresh_delay': 0,
-      \ 'min_pattern_length': 1,
-      \})
-
-"call deoplete#custom#option('sources', {
-"      \ 'python3': ['LanguageClient'],
-"      \ 'go': ['LanguageClient'],
+"let g:deoplete#enable_at_startup = 1
+"let g:deoplete#enable_ignore_case = 1
+"let g:deoplete#source#yaml = ['buffer', 'file', 'ultisnips']
+"call deoplete#custom#option({
+"      \ 'auto_complete_delay': 0,
+"      \ 'auto_refresh_delay': 0,
+"      \ 'min_pattern_length': 1,
 "      \})
-
-call deoplete#custom#source(
-      \ 'LanguageClient',
-      \ 'min_pattern_length',
-      \ 1)
-
-autocmd BufEnter * call ncm2#enable_for_buffer()
-inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
-set completeopt=noinsert,menuone,noselect
+"
+""call deoplete#custom#option('sources', {
+""      \ 'python3': ['LanguageClient'],
+""      \ 'go': ['LanguageClient'],
+""      \})
+"
+"call deoplete#custom#source(
+"      \ 'LanguageClient',
+"      \ 'min_pattern_length',
+"      \ 1)
+"
+"autocmd BufEnter * call ncm2#enable_for_buffer()
+"inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+"set completeopt=noinsert,menuone,noselect
 
 " ------------------------------------------------------------------------------
 " vim-terraform
