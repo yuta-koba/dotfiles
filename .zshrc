@@ -1,6 +1,8 @@
 bindkey -v
 
 # ### Aliases {{{
+alias E='exec $SHELL -l'
+
 alias v='nvim'
 alias vi='nvim'
 
@@ -11,13 +13,16 @@ alias ll='ls -lGa'
 alias ..='cd .. && ll'
 alias ...='cd ../../ && ll'
 alias gs='git status'
+alias gp='git pull'
 alias ga='git add'
 alias gc='git commit'
 alias gl='git log --oneline'
 alias gd='git diff'
+alias gdc='git diff --cached'
 alias cdg='cd ~/dev/src/github.com/yuta_kobayashi/gist'
 
-alias diff='type colordiff > /dev/null && colordiff -u || diff'
+#alias diff='type colordiff > /dev/null && colordiff -u || diff'
+alias diff='colordiff'
 alias dc='docker-compose'
 
 alias cfn='aws cloudformation'
@@ -70,6 +75,7 @@ if [[ -f ~/.zplug/init.zsh ]]; then
   zstyle ':prezto:module:git:alias' skip 'yes'
   zstyle ':prezto:module:prompt' theme 'sorin'
 
+  zplug "koron/gtc",                            as:command, hook-build:'go get -d && go build'
   zplug "junegunn/fzf-bin",                     as:command, from:gh-r, rename-to:"fzf"
   zplug "junegunn/fzf",                         use:"shell/(completion|key-bindings).zsh"
   zplug "stedolan/jq",                          as:command, from:gh-r, rename-to:"jq"
@@ -78,7 +84,7 @@ if [[ -f ~/.zplug/init.zsh ]]; then
   zplug "github/hub",                           as:command, from:gh-r, rename-to:"hub"
   zplug "jonas/tig",                            as:command, hook-build:"make", use:"src/tig"
   zplug "awslabs/git-secrets",                  as:command, hook-build:"PREFIX=~/.zplug make install"
-  zplug "daveewart/colordiff",                  as:command, use:"colordiff.pl", rename-to:"colordiff"
+  zplug "daveewart/colordiff",                  as:command, at:current, use:"colordiff.pl", rename-to:"colordiff"
 
   zplug "direnv/direnv",                        as:command, from:gh-r, rename-to:"direnv", hook-build:"chmod 755 direnv\.*"
   if [[ $(type dirne) > /dev/null ]];then

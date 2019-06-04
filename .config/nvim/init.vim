@@ -20,6 +20,8 @@ let g:ruby_host_prog = $RBENV_ROOT . '/shims/ruby'
 let g:plug_window = '-tabnew'
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'thinca/vim-splash'
+
 " Help
 Plug 'vim-jp/vimdoc-ja'
 
@@ -59,15 +61,15 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 " LSP
-"Plug 'prabirshrestha/asyncomplete.vim'
-"Plug 'prabirshrestha/async.vim'
-"Plug 'prabirshrestha/vim-lsp'
-"Plug 'prabirshrestha/asyncomplete-lsp.vim'
-"Plug 'natebosch/vim-lsc'
-Plug 'autozimu/LanguageClient-neovim', {
-      \ 'branch': 'next',
-      \ 'do': 'bash install.sh',
-      \}
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'natebosch/vim-lsc'
+"Plug 'autozimu/LanguageClient-neovim', {
+"      \ 'branch': 'next',
+"      \ 'do': 'bash install.sh',
+"      \}
 
 " Language / Filetype
 Plug 'fatih/vim-go',              { 'for': 'go', 'do': ':GoInstallBinaries'}
@@ -83,9 +85,9 @@ Plug 'honza/dockerfile.vim'
 Plug 'hashivim/vim-terraform'
 
 " Now testing
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins'}
-Plug 'ncm2/ncm2'
-Plug 'roxma/nvim-yarp'
+"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins'}
+"Plug 'ncm2/ncm2'
+"Plug 'roxma/nvim-yarp'
 "if !has('nvim')
 "  Plug 'roxma/nvim-yarp'
 "  Plug 'roxma/vim-hug-neovim-rpc'
@@ -102,6 +104,16 @@ call plug#end()
 " ------------------------------------------------------------------------------
 " denite
 " ------------------------------------------------------------------------------
+autocmd FileType denite call s:denite_my_settings()
+function! s:denite_my_settings() abort
+  nnoremap <silent><buffer><expr> <CR> denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> d denite#do_map('do_action', 'delete')
+  nnoremap <silent><buffer><expr> p denite#do_map('do_action', 'preview')
+  nnoremap <silent><buffer><expr> q denite#do_map('quit')
+  nnoremap <silent><buffer><expr> i denite#do_map('open_filter_buffer')
+  nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
+endfunction
+
 " grep
 call denite#custom#var('grep', 'command', ['pt'])
 call denite#custom#var('grep', 'default_opts', ['-i', '--smart-case'])
@@ -111,12 +123,20 @@ call denite#custom#var('grep', 'separator', ['--'])
 call denite#custom#var('grep', 'final_opts', [])
 
 noremap ,db :Denite buffer<CR>
-noremap ,df :Denite file/rec -split=tab -auto-preview -vertical-preview<CR>
-noremap ,dmf :Denite file_mru -split=tab -auto-preview -vertical-preview<CR>
+"noremap ,df :Denite file/rec -split=tab -auto-preview -vertical-preview<CR>
+noremap ,df :Denite file/rec -split=tab -vertical-preview<CR>
+"noremap ,dmf :Denite file_mru -split=tab -auto-preview -vertical-preview<CR>
+noremap ,dmf :Denite file_mru -split=tab -vertical-preview<CR>
 noremap ,dd :Denite directory_rec -winheight=10<CR>
 noremap ,dmd :Denite directory_mru -winheight=10<CR>
-noremap ,dgr :DeniteBufferDir grep -auto-preview -vertical-preview<CR>
-noremap ,dg :Denite ghq -winheight=10<CR>
+noremap ,dgh :Denite ghq -winheight=10<CR>
+noremap ,dg :DeniteProjectDir grep  -split=tab -vertical-preview -buffer-name=dgb<CR>
+noremap ,dG :DeniteProjectDir grep -auto-resume -buffer-name=dgb<CR>
+noremap ,dgr :DeniteProjectDir -resume -vertical-preview -buffer-name=dgb<CR>
+noremap ,dgn :DeniteProjectDir -resume -buffer-name=dgb -select=+1 -immediately<CR>
+noremap ,dn :DeniteProjectDir -buffer-name=dgb -select=+1 -immediately<CR>
+noremap ,dgp :DeniteProjectDir -resume -buffer-name=dgb -select=-1 -immediately<CR>
+noremap ,dp :DeniteProjectDir -buffer-name=dgb -select=-1 -immediately<CR>
 
 " change mapping
 call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
@@ -124,6 +144,11 @@ call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'nor
 call denite#custom#map('insert', "<C-v>", '<denite:do_action:vsplit>', 'noremap')
 call denite#custom#map('insert', "<C-h>", '<denite:do_action:split>', 'noremap')
 call denite#custom#map('insert', "jj", '<denite:enter_mode:normal>')
+
+" ------------------------------------------------------------------------------
+" splash
+" ------------------------------------------------------------------------------
+let g:splash#path = $HOME . '/.config/nvim/nvim_intro.txt'
 
 " ------------------------------------------------------------------------------
 " vimdoc-ja
@@ -166,6 +191,9 @@ nmap <leader>ig  <Plug>IndentGuidesToggle<CR>
 let g:indent_guides_enable_on_vim_startup = 1 " vim起動時にindent-guide起動
 let g:indent_guides_guide_size = 2            " indent-guideの単位
 let g:indent_guides_color_change_percent = 5
+"let g:indent_guides_auto_colors = 0
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=205
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=205
 
 " ------------------------------------------------------------------------------
 " fzf
@@ -205,7 +233,7 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 nmap <leader>ff :Files<CR>
 nmap <leader>fs :Snippet<CR>
 nmap <leader>fb :Buffers<CR>
-nmap <leader>fg :Ghqlist<CR>
+"nmap <leader>fg :Ghqlist<CR>
 nmap <leader>fm :Mru<CR>
 
 " ------------------------------------------------------------------------------
@@ -279,82 +307,68 @@ let g:tagbar_type_terraform = {
 "let g:lsp_log_verbose = 1
 "let g:lsp_log_file = expand('./vim-lsp.log')
 
-"let g:lsp_async_completion = 1
-"
-"let g:lsp_diagnostics_enabled = 1
-"let g:lsp_diagnostics_echo_delay = 0
-"let g:lsp_diagnostics_echo_cursor = 1
-"
-"let g:lsp_signs_enabled = 1         " enable signs
-"let g:lsp_signs_error = {'text': '✗'}
-"let g:lsp_signs_warning = {'text': '‼'}
-"
-"augroup VimLsp
-"  autocmd!
-"  autocmd Filetype go,python nmap <buffer> <leader>ac <plug>(lsp-code-action)
-"  autocmd Filetype go,python nmap <buffer> <leader>df <plug>(lsp-document-format)
-"  autocmd Filetype go,python nmap <buffer> <leader>dec <plug>(lsp-declaration)
-"  autocmd Filetype go,python nmap <buffer> <leader>def <plug>(lsp-definition)
-"augroup END
-"
-"if executable('pyls')
-"  " pip install 'python-language-server[all]'
-"  augroup pyls
-"    autocmd!
-"    autocmd User lsp_setup call lsp#register_server({
-"          \ 'name': 'pyls',
-"          \ 'cmd': {server_info->['pyls']},
-"          \ 'whitelist': ['python'],
-"          \})
-"  augroup END
-"endif
-"
-"if executable('gopls')
-"  " go get -u golang.org/x/tools/cmd/gopls
-"  augroup gopls
-"    autocmd!
-"    autocmd User lsp_setup call lsp#register_server({
-"          \ 'name': 'gopls',
-"          \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
-"          \ 'whitelist' : ['go'],
-"          \ })
-"    autocmd FileType go setlocal omnifunc=lsp#complete
-"  augroup END
-"endif
-"
-"if executable('bingo')
-"  " go get -u github.com/saibing/bingo
-"  augroup bingo
-"    autocmd!
-"    autocmd User lsp_setup call lsp#register_server({
-"          \ 'name': 'bingo',
-"          \ 'cmd': {server_info->['bingo', '-mode', 'stdio']},
-"          \ 'whitelist' : ['go'],
-"          \ })
-"    autocmd FileType go setlocal omnifunc=lsp#complete
-"    "autocmd BufWritePre <buffer> LspDocumentFormat
-"  augroup END
-"endif
+let g:lsp_async_completion = 1
+
+let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_echo_delay = 0
+let g:lsp_diagnostics_echo_cursor = 1
+
+let g:lsp_signs_enabled = 1         " enable signs
+let g:lsp_signs_error = {'text': '✗'}
+let g:lsp_signs_warning = {'text': '‼'}
+
+augroup VimLsp
+  autocmd!
+  autocmd Filetype go,python nmap <buffer> <leader>ac <plug>(lsp-code-action)
+  autocmd Filetype go,python nmap <buffer> <leader>df <plug>(lsp-definition)
+  autocmd Filetype go,python nmap <buffer> <leader>ho <plug>(lsp-hover)
+augroup END
+
+if executable('pyls')
+  " pip install 'python-language-server[all]'
+  augroup pyls
+    autocmd!
+    autocmd User lsp_setup call lsp#register_server({
+          \ 'name': 'pyls',
+          \ 'cmd': {server_info->['pyls']},
+          \ 'whitelist': ['python'],
+          \})
+  augroup END
+endif
+
+if executable('gopls')
+  " go get -u golang.org/x/tools/cmd/gopls
+  augroup gopls
+    autocmd!
+    autocmd User lsp_setup call lsp#register_server({
+          \ 'name': 'gopls',
+          \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
+          \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'go.mod'))},
+          \ 'whitelist' : ['go'],
+          \ })
+    autocmd FileType go setlocal omnifunc=lsp#complete
+  augroup END
+endif
 
 " ------------------------------------------------------------------------------
 " LanguageClient-neovim
 " ------------------------------------------------------------------------------
-let g:LanguageClient_rootMarkers = {
-        \ 'go': ['.git', 'go.mod'],
-        \ }
-
-let g:LanguageClient_serverCommands = {
-    \ 'python': ['/usr/local/bin/pyls'],
-    \ 'go': ['gopls'],
-    \ }
-
-autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
-
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-nnoremap <leader>ho :call LanguageClient#textDocument_hover()<CR>
-nnoremap <leader>df :call LanguageClient#textDocument_definition()<CR>
-nnoremap <leader>rn :call LanguageClient#textDocument_rename()<CR>
-
+"let g:LanguageClient_rootMarkers = {
+"        \ 'go': ['.git', 'go.mod'],
+"        \ }
+"
+"let g:LanguageClient_serverCommands = {
+"    \ 'python': ['/usr/local/bin/pyls'],
+"    \ 'go': ['gopls'],
+"    \ }
+"
+"autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
+"
+"nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+"nnoremap <leader>ho :call LanguageClient#textDocument_hover()<CR>
+"nnoremap <leader>df :call LanguageClient#textDocument_definition()<CR>
+"nnoremap <leader>rn :call LanguageClient#textDocument_rename()<CR>
+"
 "let g:LanguageClient_loggingLevel = 'DEBUG'
 "let g:LanguageClient_loggingFile =  expand('~/.config/nvim/LanguageClient.log')
 "let g:LanguageClient_serverStderr = expand('~/.config/nvim/LanguageServer.log')
@@ -376,17 +390,23 @@ augroup vimgo
   let g:go_term_mode = "split"
   let g:go_term_height = 10
 
-  let g:go_fmt_command = "goimports"
+  let g:go_info_mode = "gopls"
   let g:go_def_mode = "gopls"
+  let g:go_fmt_command = "goimports"
   let g:go_snippet_engine = "ultisnips"
 
   "let g:go_guru_scope= [$GOENV_ROOT."/sources/". system('echo -n $(goenv version-name)') ."/go/src"]
+  let g:go_list_type = "quickfix"
 
   autocmd FileType go nmap <leader>gb  <Plug>(go-build)
   autocmd FileType go nmap <leader>gr  <Plug>(go-run)
+  autocmd FileType go nmap <leader>dc  :GoDoc<CR>
+  autocmd FileType go nmap <leader>dcb :GoDocBrowser<CR>
   autocmd FileType go nmap <leader>gif :GoIfErr<CR>
   autocmd FileType go nmap <leader>gR  :GoRun %<CR>
   autocmd FileType go nmap <leader>gt  <Plug>(go-test)
+
+  au BufNewFile,BufRead,BufReadPost *.godoc set syntax=go
 augroup END
 
 
@@ -443,7 +463,8 @@ let g:terraform_fmt_on_save = 1
 syntax enable
 let g:solarized_termcolors=256
 colorscheme solarized
-set background=light
+"set background=light
+set background=dark
 
 " file
 set encoding=utf-8           " vimでの文字エンコーディング
@@ -452,6 +473,7 @@ set fileencodings=sjis,utf-8 " バッファの改行コード指定
 set fileformats=unix,dos,mac " バッファの改行コード指定
 
 " edit
+set number
 set clipboard+=unnamedplus " clipboardとの連携
 set noswapfile             " swapファイルを作成しない
 set nobackup               " backupを作成しない
@@ -520,6 +542,7 @@ augroup vimrc
   autocmd!
   " file types
   au BufNewFile,BufRead Dockerfile* set filetype=dockerfile
+  au BufNewFile,BufRead *.tsv set filetype=tsv
   au BufNewFile,BufRead *.tf,*.tfvars,*.tfstate setlocal filetype=terraform
 augroup END
 
@@ -530,5 +553,7 @@ augroup Highlight
   au!
   autocmd BufWinEnter * match Todo /\<DEBUG\>/
   autocmd BufWinEnter * match Todo /\<MEMO\>/
+  autocmd BufWinEnter * match Todo /\<WIP\>/
+  autocmd BufWinEnter * match Todo /\<DEV\>/
 augroup END
 " }}}

@@ -29,3 +29,6 @@ HISTSIZE=1000000
 SAVEHIST=1000000
 
 export PATH=/usr/local/share/git-core/contrib/diff-highlight:$PATH
+
+# gtc   (Go Tool Catalog)
+GTC_CATALOG_FILE="~/.gtc.json"

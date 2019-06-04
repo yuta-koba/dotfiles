@@ -1,0 +1,6 @@
+memodir = "/Users/yuta_kobayashi/.config/memo/_posts"
+editor = "nvim"
+column = 20
+selectcmd = "fzf"
+grepcmd = "grep -nH ${PATTERN} ${FILES}"
+assetsdir = "."
