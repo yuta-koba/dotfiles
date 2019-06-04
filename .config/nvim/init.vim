@@ -145,6 +145,12 @@ call denite#custom#map('insert', "<C-v>", '<denite:do_action:vsplit>', 'noremap'
 call denite#custom#map('insert', "<C-h>", '<denite:do_action:split>', 'noremap')
 call denite#custom#map('insert', "jj", '<denite:enter_mode:normal>')
 
+
+" ------------------------------------------------------------------------------
+" splash
+" ------------------------------------------------------------------------------
+let g:splash#path = $HOME . '/.config/nvim/nvim_intro.txt'
+
 " ------------------------------------------------------------------------------
 " splash
 " ------------------------------------------------------------------------------
@@ -521,18 +527,17 @@ nnoremap <leader>V :tabnew $MYGVIMRC<CR>
 nnoremap <leader>s :source $MYVIMRC<CR>
 nnoremap <leader>S :source $MYGVIMRC<CR>
 
-inoremap <silent> jj <ESC>
-
 noremap <silent><Esc><ESC> :<C-u>set nohlsearch!<CR>
+
+inoremap <silent> jj <ESC>
+inoremap <C-h> <Left>
+inoremap <C-l> <Right>
 
 nnoremap <leader><Tab>N :tabnew<CR>
 nnoremap <leader><Tab>n :tabn<CR>
 nnoremap <leader><Tab>p :tabp<CR>
-
 nnoremap <leader>n :cnext<CR>
 nnoremap <leader>p :cprevious<CR>
-
-nnoremap <leader>tr :belowright split \| :terminal<CR>
 " }}}
 
 " ==============================================================================
