@@ -6,7 +6,6 @@ alias E='exec $SHELL -l'
 alias v='nvim'
 alias vi='nvim'
 
-alias E='exec $SHELL -l'
 alias cp='cp -i'
 alias mv='mv -i'
 alias l='ls -Ga'
