@@ -80,7 +80,7 @@ if [[ -f ~/.zplug/init.zsh ]]; then
   zplug "junegunn/fzf-bin",                     as:command, from:gh-r, rename-to:"fzf"
   zplug "junegunn/fzf",                         use:"shell/(completion|key-bindings).zsh"
   zplug "stedolan/jq",                          as:command, from:gh-r, rename-to:"jq"
-  zplug "motemen/ghq",                          as:command, from:gh-r, rename-to:"ghq"
+  zplug "x-motemen/ghq",                        as:command, from:gh-r, rename-to:"ghq"
   zplug "monochromegane/the_platinum_searcher", as:command, from:gh-r, rename-to:"pt"
   zplug "github/hub",                           as:command, from:gh-r, rename-to:"hub"
   zplug "jonas/tig",                            as:command, hook-build:"make", use:"src/tig"

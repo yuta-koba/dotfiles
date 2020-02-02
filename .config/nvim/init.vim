@@ -30,6 +30,7 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'jacoborus/tender.vim'
 Plug 'tomasr/molokai'
 Plug 'arcticicestudio/nord-vim'
+Plug 'morhetz/gruvbox'
 
 
 " Git / Gist
@@ -47,7 +48,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'majutsushi/tagbar'
 Plug 'itchyny/lightline.vim'
 "Plug 'liuchengxu/vista.vim'
-Plug 'mattn/sonictemplate-vim'
+Plug 'mattn/vim-sonictemplate'
 Plug 'mechatroner/rainbow_csv'
 
 " Dark power
@@ -72,7 +73,8 @@ Plug 'natebosch/vim-lsc'
 "      \}
 
 " Language / Filetype
-Plug 'fatih/vim-go',              { 'for': 'go', 'do': ':GoInstallBinaries'}
+"Plug 'fatih/vim-go',              { 'for': 'go', 'do': ':GoInstallBinaries'}
+Plug 'mattn/vim-goimports'
 Plug 'ryanolsonx/vim-lsp-python', { 'for': 'python'}
 Plug 'stephpy/vim-yaml',          { 'for': 'yaml'}
 Plug 'cespare/vim-toml',          { 'for': 'toml'}
@@ -146,6 +148,7 @@ call denite#custom#map('insert', "<C-h>", '<denite:do_action:split>', 'noremap')
 call denite#custom#map('insert', "jj", '<denite:enter_mode:normal>')
 
 
+let g:gruvbox_contrast_dark = 'hard'
 " ------------------------------------------------------------------------------
 " splash
 " ------------------------------------------------------------------------------
@@ -168,7 +171,7 @@ set t_Co=256
 set laststatus=2
 
 let g:lightline = {
-  \'colorscheme': 'solarized',
+  \'colorscheme': 'gruvbox',
   \'active': {
   \  'left': [
   \    ['mode', 'paste'],
@@ -348,9 +351,18 @@ if executable('gopls')
     autocmd!
     autocmd User lsp_setup call lsp#register_server({
           \ 'name': 'gopls',
-          \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
+          \ 'cmd': {server_info->['gopls']},
           \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'go.mod'))},
           \ 'whitelist' : ['go'],
+          \ 'workspace_config': {'gopls': {
+          \     'staticcheck': v:true,
+          \     'completeUnimported': v:true,
+          \     'caseSensitiveCompletion': v:true,
+          \     'usePlaceholders': v:true,
+          \     'completionDocumentation': v:true,
+          \     'watchFileChanges': v:true,
+          \     'hoverKind': 'SingleLine',
+          \ }},
           \ })
     autocmd FileType go setlocal omnifunc=lsp#complete
   augroup END
@@ -422,8 +434,8 @@ augroup END
 let g:UltiSnipsEditSplit="horizontal"
 let g:UltiSnipsSnippetDirectories = [ 'UltiSnips', $HOME.'/.config/UltiSnips/aws']
 let g:UltiSnipsExpandTrigger="<c-e>"
-let g:UltiSnipsJumpForwardTrigger="<c-f>"
-let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+let g:UltiSnipsJumpForwardTrigger="<c-n>"
+let g:UltiSnipsJumpBackwardTrigger="<c-p>"
 "call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
 "    \ 'name': 'ultisnips',
 "    \ 'whitelist': ['*'],
@@ -468,13 +480,14 @@ let g:terraform_fmt_on_save = 1
 " color
 syntax enable
 let g:solarized_termcolors=256
-colorscheme solarized
+colorscheme gruvbox
+"colorscheme solarized
 "set background=light
 set background=dark
 
 " file
 set encoding=utf-8           " vimでの文字エンコーディング
-set termencoding=utf-8       " terminalでの文字エンコーディング
+"set termencoding=utf-8       " terminalでの文字エンコーディング
 set fileencodings=sjis,utf-8 " バッファの改行コード指定
 set fileformats=unix,dos,mac " バッファの改行コード指定
 
