@@ -25,12 +25,14 @@ Plug 'thinca/vim-splash'
 " Help
 Plug 'vim-jp/vimdoc-ja'
 
+
 " Colorscheme
 Plug 'altercation/vim-colors-solarized'
 Plug 'jacoborus/tender.vim'
 Plug 'tomasr/molokai'
 Plug 'arcticicestudio/nord-vim'
-
+Plug 'cocopon/iceberg.vim'
+Plug 'morhetz/gruvbox'
 
 " Git / Gist
 Plug 'tpope/vim-fugitive'
@@ -47,8 +49,14 @@ Plug 'junegunn/fzf.vim'
 Plug 'majutsushi/tagbar'
 Plug 'itchyny/lightline.vim'
 "Plug 'liuchengxu/vista.vim'
-Plug 'mattn/sonictemplate-vim'
+"Plug 'mattn/sonictemplate-vim'
+Plug 'mattn/vim-sonictemplate'
 Plug 'mechatroner/rainbow_csv'
+Plug 'thinca/vim-quickrun'
+Plug 'thinca/vim-showtime'
+Plug 'mattn/vim-goimports'
+Plug 'delphinus/vim-denite-memo'
+Plug 'tyru/open-browser.vim'
 
 " Dark power
 Plug 'Shougo/denite.nvim', {'do': 'UpdateRemotePlugins'}
@@ -65,14 +73,15 @@ Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'natebosch/vim-lsc'
+Plug 'mattn/vim-lsp-settings'
+"Plug 'natebosch/vim-lsc'
 "Plug 'autozimu/LanguageClient-neovim', {
 "      \ 'branch': 'next',
 "      \ 'do': 'bash install.sh',
 "      \}
 
 " Language / Filetype
-Plug 'fatih/vim-go',              { 'for': 'go', 'do': ':GoInstallBinaries'}
+"Plug 'fatih/vim-go',              { 'for': 'go', 'do': ':GoInstallBinaries'}
 Plug 'ryanolsonx/vim-lsp-python', { 'for': 'python'}
 Plug 'stephpy/vim-yaml',          { 'for': 'yaml'}
 Plug 'cespare/vim-toml',          { 'for': 'toml'}
@@ -102,6 +111,23 @@ call plug#end()
 " vim-plugin extension {{{
 " ==============================================================================
 " ------------------------------------------------------------------------------
+" open-browser
+" ------------------------------------------------------------------------------
+let g:netrw_nogx = 1 " disable netrw's gx mapping.
+nmap ob <Plug>(openbrowser-search)
+vmap ob <Plug>(openbrowser-search)
+let g:openbrowser_search_engines = {
+		\       'go': 'http://pkg.go.dev/search?q={query}',
+		\       'github': 'http://github.com/search?q={query}'
+\}
+
+" ------------------------------------------------------------------------------
+" quickrun
+" ------------------------------------------------------------------------------
+let g:quickrun_config = {}
+let g:quickrun_config.go = {'command' : 'go'}
+
+" ------------------------------------------------------------------------------
 " denite
 " ------------------------------------------------------------------------------
 autocmd FileType denite call s:denite_my_settings()
@@ -124,15 +150,15 @@ call denite#custom#var('grep', 'final_opts', [])
 
 noremap ,db :Denite buffer<CR>
 "noremap ,df :Denite file/rec -split=tab -auto-preview -vertical-preview<CR>
-noremap ,df :Denite file/rec -split=tab -vertical-preview<CR>
+noremap ,df :Denite file/rec -split=tab<CR>
 "noremap ,dmf :Denite file_mru -split=tab -auto-preview -vertical-preview<CR>
-noremap ,dmf :Denite file_mru -split=tab -vertical-preview<CR>
+noremap ,dmf :Denite file_mru -split=tab<CR>
 noremap ,dd :Denite directory_rec -winheight=10<CR>
 noremap ,dmd :Denite directory_mru -winheight=10<CR>
 noremap ,dgh :Denite ghq -winheight=10<CR>
-noremap ,dg :DeniteProjectDir grep  -split=tab -vertical-preview -buffer-name=dgb<CR>
+noremap ,dg :DeniteProjectDir grep  -split=tab -buffer-name=dgb<CR>
 noremap ,dG :DeniteProjectDir grep -auto-resume -buffer-name=dgb<CR>
-noremap ,dgr :DeniteProjectDir -resume -vertical-preview -buffer-name=dgb<CR>
+noremap ,dgr :DeniteProjectDir -resume -buffer-name=dgb<CR>
 noremap ,dgn :DeniteProjectDir -resume -buffer-name=dgb -select=+1 -immediately<CR>
 noremap ,dn :DeniteProjectDir -buffer-name=dgb -select=+1 -immediately<CR>
 noremap ,dgp :DeniteProjectDir -resume -buffer-name=dgb -select=-1 -immediately<CR>
@@ -168,7 +194,7 @@ set t_Co=256
 set laststatus=2
 
 let g:lightline = {
-  \'colorscheme': 'solarized',
+  \'colorscheme': 'gruvbox',
   \'active': {
   \  'left': [
   \    ['mode', 'paste'],
@@ -197,7 +223,7 @@ nmap <leader>ig  <Plug>IndentGuidesToggle<CR>
 let g:indent_guides_enable_on_vim_startup = 1 " vim起動時にindent-guide起動
 let g:indent_guides_guide_size = 2            " indent-guideの単位
 let g:indent_guides_color_change_percent = 5
-"let g:indent_guides_auto_colors = 0
+let g:indent_guides_auto_colors = 0
 "autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=205
 "autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=205
 
@@ -314,6 +340,7 @@ let g:tagbar_type_terraform = {
 "let g:lsp_log_file = expand('./vim-lsp.log')
 
 let g:lsp_async_completion = 1
+let g:lsp_text_edit_enabled = 0
 
 let g:lsp_diagnostics_enabled = 1
 let g:lsp_diagnostics_echo_delay = 0
@@ -343,17 +370,36 @@ if executable('pyls')
 endif
 
 if executable('gopls')
-  " go get -u golang.org/x/tools/cmd/gopls
+  " go get golang.org/x/tools/gopls
   augroup gopls
     autocmd!
     autocmd User lsp_setup call lsp#register_server({
           \ 'name': 'gopls',
-          \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
-          \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'go.mod'))},
+          \ 'cmd': {server_info->['gopls']},
           \ 'whitelist' : ['go'],
+          \ 'workspace_config': {
+          \   'gopls': {
+          \     'staticcheck': v:true,
+          \     'usePlaceholders': v:true,
+          \     'completionDocumentation': v:false,
+          \     'watchFileChanges': v:true,
+          \     'hoverKind': 'SingleLine',
+          \   }},
           \ })
     autocmd FileType go setlocal omnifunc=lsp#complete
+    autocmd FileType go nmap <buffer> ,n <plug>(lsp-next-error)
+    autocmd FileType go nmap <buffer> ,p <plug>(lsp-previous-error)
   augroup END
+endif
+
+if executable('solargraph')
+    " gem install solargraph
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'solargraph',
+        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'solargraph stdio']},
+        \ 'initialization_options': {"diagnostics": "true"},
+        \ 'whitelist': ['ruby'],
+        \ })
 endif
 
 " ------------------------------------------------------------------------------
@@ -382,38 +428,40 @@ endif
 " ------------------------------------------------------------------------------
 " vim-go
 " ------------------------------------------------------------------------------
-augroup vimgo
-  autocmd!
-  let g:go_highlight_types = 1
-  let g:go_highlight_fields = 1
-  let g:go_highlight_functions = 1
-  let g:go_highlight_function_calls = 1
-  let g:go_highlight_operators = 1
-  let g:go_highlight_extra_types = 1
-  let g:go_highlight_generate_tags = 1
-  let g:go_highlight_variable_declarations = 1
-
-  let g:go_term_mode = "split"
-  let g:go_term_height = 10
-
-  let g:go_info_mode = "gopls"
-  let g:go_def_mode = "gopls"
-  let g:go_fmt_command = "goimports"
-  let g:go_snippet_engine = "ultisnips"
-
-  "let g:go_guru_scope= [$GOENV_ROOT."/sources/". system('echo -n $(goenv version-name)') ."/go/src"]
-  let g:go_list_type = "quickfix"
-
-  autocmd FileType go nmap <leader>gb  <Plug>(go-build)
-  autocmd FileType go nmap <leader>gr  <Plug>(go-run)
-  autocmd FileType go nmap <leader>dc  :GoDoc<CR>
-  autocmd FileType go nmap <leader>dcb :GoDocBrowser<CR>
-  autocmd FileType go nmap <leader>gif :GoIfErr<CR>
-  autocmd FileType go nmap <leader>gR  :GoRun %<CR>
-  autocmd FileType go nmap <leader>gt  <Plug>(go-test)
-
-  au BufNewFile,BufRead,BufReadPost *.godoc set syntax=go
-augroup END
+"let $PATH = $HOME . "/.local/go/bin:" . $PATH
+"let $GOPATH = $HOME . "/dev"
+"let g:go_bin_path = $HOME . "/.local/go/bin/go"
+"
+"augroup vimgo
+"  autocmd!
+"  let g:go_highlight_types = 1
+"  let g:go_highlight_fields = 1
+"  let g:go_highlight_functions = 1
+"  let g:go_highlight_function_calls = 1
+"  let g:go_highlight_operators = 1
+"  let g:go_highlight_extra_types = 1
+"  let g:go_highlight_generate_tags = 1
+"  let g:go_highlight_variable_declarations = 1
+"
+"  let g:go_term_mode = "split"
+"  let g:go_term_height = 10
+"
+"  let g:go_info_mode = "gopls"
+"  let g:go_def_mode = "gopls"
+"  let g:go_fmt_command = "goimports"
+"  let g:go_snippet_engine = "ultisnips"
+"  let g:go_list_type = "quickfix"
+"
+"  autocmd FileType go nmap <leader>gb  <Plug>(go-build)
+"  autocmd FileType go nmap <leader>gr  <Plug>(go-run)
+"  autocmd FileType go nmap <leader>dc  :GoDoc<CR>
+"  autocmd FileType go nmap <leader>dcb :GoDocBrowser<CR>
+"  autocmd FileType go nmap <leader>gif :GoIfErr<CR>
+"  autocmd FileType go nmap <leader>gR  :GoRun %<CR>
+"  autocmd FileType go nmap <leader>gt  <Plug>(go-test)
+"
+"  au BufNewFile,BufRead,BufReadPost *.godoc set syntax=go
+"augroup END
 
 
 " ------------------------------------------------------------------------------
@@ -466,9 +514,13 @@ let g:terraform_fmt_on_save = 1
 " basic {{{
 " ==============================================================================
 " color
+"
 syntax enable
-let g:solarized_termcolors=256
-colorscheme solarized
+"let g:solarized_termcolors=256
+let g:gruvbox_contrast_dark='hard'
+"colorscheme tender
+"colorscheme solarized
+colorscheme gruvbox
 "set background=light
 set background=dark
 
@@ -489,7 +541,7 @@ augroup undo
   autocmd BufReadPre ~/* setlocal undofile
 augroup END
 set nocursorcolumn         " カーソル位置(列)の非表示
-set nocursorline           " カーソル位置(行)の非表示
+set cursorline           " カーソル位置(行)の非表示
 set nrformats=             " 10進数認識に変更
 set virtualedit=block      " visual-block時、行末を超えて選択可能にする
 set list                   " 不可視文字を表示
@@ -497,7 +549,7 @@ set listchars=tab:>-,trail:-,extends:>,precedes:<
 set binary noeol           " ファイル末尾にeolを付けない
 set foldmethod=marker
 set write
-set scrolloff=0
+"set scrolloff=999
 
 " tab
 set smarttab               " 行頭の余白内で<Tab>を入力すると、'shiftwidth'分をインデントする
@@ -523,6 +575,7 @@ set conceallevel=0         " ダブルクォーテーションを表示
 " key-mappings {{{
 " ==============================================================================
 nnoremap <leader>v :tabnew $MYVIMRC<CR>
+nnoremap <leader>g :tabnew ~/.gonvim/setting.toml<CR>
 nnoremap <leader>V :tabnew $MYGVIMRC<CR>
 nnoremap <leader>s :source $MYVIMRC<CR>
 nnoremap <leader>S :source $MYGVIMRC<CR>
@@ -549,6 +602,7 @@ augroup vimrc
   au BufNewFile,BufRead Dockerfile* set filetype=dockerfile
   au BufNewFile,BufRead *.tsv set filetype=tsv
   au BufNewFile,BufRead *.tf,*.tfvars,*.tfstate setlocal filetype=terraform
+  au BufNewFile,BufRead *.showtime |\ <Plug>IndentGuidesToggle<CR>
 augroup END
 
 autocmd QuickFixCmdPost *grep* cwindow
