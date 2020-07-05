@@ -1,5 +1,5 @@
 memodir = "/Users/yuta_kobayashi/.config/memo/_posts"
-editor = "nvim"
+editor = "vim"
 column = 20
 selectcmd = "fzf"
 grepcmd = "grep -nH ${PATTERN} ${FILES}"
