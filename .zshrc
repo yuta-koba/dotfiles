@@ -1,12 +1,21 @@
 bindkey -v
 
+autoload -U promptinit; promptinit
+
 # ### Aliases {{{
+
+
+function u2d() {
+  gdate -d @$1 "+%Y/%m/%d %H:%M:%S"
+}
+
 alias E='exec $SHELL -l'
 
-alias v='nvim'
-alias vi='nvim'
+alias v='vim'
+alias g='gvim'
+alias n='nvim'
 
-alias E='exec $SHELL -l'
+alias t='tmux'
 alias cp='cp -i'
 alias mv='mv -i'
 alias l='ls -Ga'
@@ -14,9 +23,10 @@ alias ll='ls -lGa'
 alias ..='cd .. && ll'
 alias ...='cd ../../ && ll'
 alias gs='git status'
-alias gp='git pull'
+alias gp='git pull origin'
 alias ga='git add'
 alias gc='git commit'
+alias gch='git checkout'
 alias gl='git log --oneline'
 alias gd='git diff'
 alias gdc='git diff --cached'
@@ -24,14 +34,18 @@ alias cdg='cd ~/dev/src/github.com/yuta_kobayashi/gist'
 
 #alias diff='type colordiff > /dev/null && colordiff -u || diff'
 alias diff='colordiff'
+alias d='docker'
+alias dps='docker ps'
+alias dpsa='docker ps -a'
 alias dc='docker-compose'
 
+alias aws='docker run --rm -i -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'
+alias aws_completer='docker run --rm -ti --entrypoint=/usr/local/bin/aws_completer -e COMP_LINE -e COMP_POINT amazon/aws-cli'
 alias cfn='aws cloudformation'
+alias mux='tmuxinator'
 # }}}
 
 # ### Option {{{
-setopt correct # suggest correct when typo
-
 setopt no_beep      # no more beep
 setopt no_list_beep # no beep at ls completion
 setopt no_hist_beep # no beep at hist completion
@@ -62,13 +76,13 @@ if [[ -f ~/.zplug/init.zsh ]]; then
   # Essentials {{{
   ZPLUG_PROTOCOL=https
 
-  zplug "zsh-users/zsh-history-substring-search"
+  #zplug "zsh-users/zsh-history-substring-search"
   zplug "zsh-users/zsh-syntax-highlighting", defer:2
-  
+
   zplug "zsh-users/zsh-completions"
   zplug "glidenote/hub-zsh-completion"
   zplug "Valodim/zsh-curl-completion"
-  zplug "aws/aws-cli", use:"bin/aws_zsh_completer.sh"
+  #zplug "aws/aws-cli", use:"bin/aws_zsh_completer.sh"
 
   # prompt
   zplug "modules/git", from:prezto
@@ -76,11 +90,11 @@ if [[ -f ~/.zplug/init.zsh ]]; then
   zstyle ':prezto:module:git:alias' skip 'yes'
   zstyle ':prezto:module:prompt' theme 'sorin'
 
-  zplug "koron/gtc",                            as:command, hook-build:'go get -d && go build'
+  #zplug "koron/gtc",                            as:command, hook-build:'go get -d && go build'
   zplug "junegunn/fzf-bin",                     as:command, from:gh-r, rename-to:"fzf"
   zplug "junegunn/fzf",                         use:"shell/(completion|key-bindings).zsh"
   zplug "stedolan/jq",                          as:command, from:gh-r, rename-to:"jq"
-  zplug "motemen/ghq",                          as:command, from:gh-r, rename-to:"ghq"
+  zplug "x-motemen/ghq",                        as:command, from:gh-r, rename-to:"ghq"
   zplug "monochromegane/the_platinum_searcher", as:command, from:gh-r, rename-to:"pt"
   zplug "github/hub",                           as:command, from:gh-r, rename-to:"hub"
   zplug "jonas/tig",                            as:command, hook-build:"make", use:"src/tig"
@@ -105,12 +119,12 @@ fi
 # }}}
 
 PROMPT='${SSH_TTY:+"%F{9}%n%f%F{7}@%f%F{3}%m%f "}%F{4}${_prompt_sorin_pwd} ${_prompt_sorin_git}%(!. %B%F{1}#%f%b.)${editor_info[keymap]} '
-PROMPT+="%B%F{1}>%f%F{3}>%f%F{6}>%f%b "
+PROMPT+=" $(echo $AWS_PROFILE) %B%F{1}>%f%F{3}>%f%F{6}>%f%b "
 RPROMPT=''
 
 # ### function {{{
 ghq-fzf() {
-  selected_dir=$(ghq list --full-path | fzf --query "$LBUFFER")
+  selected_dir=$(ghq list --vcs git --full-path | fzf --query "$LBUFFER")
   if [ -n "$selected_dir" ]; then
     if [ -t 1 ]; then
       cd "${selected_dir}" || return
@@ -129,11 +143,16 @@ fd() {
 zle     -N   fd
 bindkey '^F' fd
 
+fe() {
+  local files
+  IFS=$'\n' files=($(fzf --height=40% --query="$1" --multi --select-1 --exit-0))
+  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+}
+
 dtls() {
   if [[ -z $REGISTRY_URL ]]; then
     REGISTRY_URL="https://registry.hub.docker.com/v1/repositories"
   fi
-  #curl -s https://registry.hub.docker.com/v1/repositories/"$1"/tags | jq -r ".[].name" | sort
   curl -s $REGISTRY_URL/"$1"/tags | jq -r ".[].name" | sort | fzf --height=40%
 }
 
@@ -143,17 +162,20 @@ dpull() {
 }
 
 drmi() {
-  image="$(docker images | fzf --height=40% --reverse --header-lines=1 | awk '{print $3}')"
-  docker rmi $image
+  docker images | fzf -m --height=40% --reverse --header-lines=1 | awk '{print $3}' | xargs -I% docker rmi -f %
 }
 
-drmf() {
+dkill() {
   proc="$(docker ps -a | fzf --height=40% --reverse --header-lines=1 | awk '{print $1}')"
   docker kill $proc && docker rm $proc
 }
 
+drmf() {
+	docker ps -a | fzf -m --height=40% --reverse --header-lines=1 | awk '{print $1}' | xargs -I% docker rm %
+}
+
 drm() {
-  proc="$(docker ps | fzf --height=40% --reverse --header-lines=1 | awk '{print $1}')"
+  proc="$(docker ps -a| fzf --height=40% --reverse --header-lines=1 | awk '{print $1}')"
   docker stop $proc && docker rm $proc
 }
 
